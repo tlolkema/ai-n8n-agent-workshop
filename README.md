@@ -64,4 +64,4 @@
   - Vibe code your new feature
   - Create a pull request and see how the pipeline is used
 
-- Whatever you feel like extending the pipeline or agentic capabilities. 😃
+- Whatever you feel like extending the pipeline or agentic capabilities. 😃 :)
