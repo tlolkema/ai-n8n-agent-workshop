@@ -11,6 +11,10 @@ function getBasket() {
 
 function addToBasket(product) {
   const basket = getBasket();
+  if (basket.length >= 10) {
+    alert("Your basket is full. You cannot add more than 10 items.");
+    return;
+  }
   basket.push(product);
   localStorage.setItem("basket", JSON.stringify(basket));
 }
@@ -59,6 +63,10 @@ function renderBasketIndicator() {
   }
 }
 
+function isBasketFull() {
+  return getBasket().length >= 10;
+}
+
 // Call this on page load and after basket changes
 if (document.readyState !== "loading") {
   renderBasketIndicator();
@@ -77,3 +85,5 @@ window.clearBasket = function () {
   origClearBasket();
   renderBasketIndicator();
 };
+
+window.isBasketFull = isBasketFull;

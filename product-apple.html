@@ -58,9 +58,29 @@
     </main>
     <script src="shop.js"></script>
     <script>
-      document.getElementById("addToBasket").onclick = function () {
+      const addBtn = document.getElementById("addToBasket");
+      function updateAddBtn() {
+        if (window.isBasketFull && isBasketFull()) {
+          addBtn.disabled = true;
+          addBtn.textContent = "Basket Full";
+          addBtn.style.background = "#ccc";
+        } else {
+          addBtn.disabled = false;
+          addBtn.textContent = "Add to Basket";
+          addBtn.style.background = "";
+        }
+      }
+      addBtn.onclick = function () {
+        if (window.isBasketFull && isBasketFull()) {
+          alert("Your basket is full. You cannot add more than 10 items.");
+          updateAddBtn();
+          return;
+        }
         addToBasket("apple");
+        updateAddBtn();
       };
+      document.addEventListener("DOMContentLoaded", updateAddBtn);
+      updateAddBtn();
     </script>
   </body>
 </html>
