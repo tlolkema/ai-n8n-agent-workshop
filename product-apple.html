@@ -58,9 +58,25 @@
     </main>
     <script src="shop.js"></script>
     <script>
+      function updateAddToBasketButton() {
+        const basket = getBasket();
+        const btn = document.getElementById("addToBasket");
+        if (basket.length >= 10) {
+          btn.disabled = true;
+          btn.textContent = "Basket Full";
+          btn.classList.add("disabled");
+        } else {
+          btn.disabled = false;
+          btn.textContent = "Add to Basket";
+          btn.classList.remove("disabled");
+        }
+      }
       document.getElementById("addToBasket").onclick = function () {
         addToBasket("apple");
+        updateAddToBasketButton();
       };
+      document.addEventListener("DOMContentLoaded", updateAddToBasketButton);
+      window.addEventListener("storage", updateAddToBasketButton);
     </script>
   </body>
 </html>

@@ -143,7 +143,6 @@ input[type="text"]:focus {
 
 .basket-img {
   height: 300px;
-  vertical-align: middle;
   display: block;
 }
 .products-title {
@@ -284,6 +283,12 @@ input[type="text"]:focus {
   color: #fff;
   box-shadow: 0 4px 16px rgba(229, 57, 53, 0.22);
   transform: scale(1.04);
+}
+.cart-action-btn.disabled {
+  background: #ccc !important;
+  color: #888 !important;
+  cursor: not-allowed !important;
+  border: 1px solid #aaa !important;
 }
 .form-group {
   margin-bottom: 1.5rem;

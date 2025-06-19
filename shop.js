@@ -11,6 +11,10 @@ function getBasket() {
 
 function addToBasket(product) {
   const basket = getBasket();
+  if (basket.length >= 10) {
+    showBasketFullMessage();
+    return;
+  }
   basket.push(product);
   localStorage.setItem("basket", JSON.stringify(basket));
 }
@@ -57,6 +61,30 @@ function renderBasketIndicator() {
   } else {
     indicator.style.display = "none";
   }
+}
+
+function showBasketFullMessage() {
+  // Try to find or create a global notification area
+  let msg = document.getElementById("basketFullMsg");
+  if (!msg) {
+    msg = document.createElement("div");
+    msg.id = "basketFullMsg";
+    msg.style.position = "fixed";
+    msg.style.top = "20px";
+    msg.style.left = "50%";
+    msg.style.transform = "translateX(-50%)";
+    msg.style.background = "#ffdddd";
+    msg.style.color = "#b20000";
+    msg.style.padding = "1em 2em";
+    msg.style.border = "1px solid #b20000";
+    msg.style.borderRadius = "8px";
+    msg.style.zIndex = 1000;
+    msg.style.fontWeight = "bold";
+    document.body.appendChild(msg);
+  }
+  msg.textContent = "Your basket is full. You cannot add more than 10 items.";
+  msg.style.display = "block";
+  setTimeout(() => { msg.style.display = "none"; }, 3000);
 }
 
 // Call this on page load and after basket changes
