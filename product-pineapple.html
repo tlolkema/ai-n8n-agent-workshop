@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Welcome to Fruit Shop - Fresh Fruits Online</title>
+    <title>Fresh Pineapple - Fruit Shop</title>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -37,46 +37,30 @@
       </div>
     </header>
     <main id="main-content" role="main">
-      <h1 class="products-title">Products</h1>
-      <ul class="emoji-list" role="list" aria-label="Product list">
-        <li>
-          <a
-            href="product-apple.html"
-            class="emoji-box"
-            aria-label="View Apple product details"
-            >🍏</a
+      <div class="content-box" style="text-align: center">
+        <div style="font-size: 4rem" role="img" aria-label="Pineapple emoji">
+          🍍
+        </div>
+        <h1>Pineapple</h1>
+        <div class="product-desc" aria-label="Product description">
+          Tropical, sweet, and ready for your basket!
+        </div>
+        <div style="margin-top: 1.2rem">
+          <button
+            id="addToBasket"
+            class="cart-action-btn"
+            aria-label="Add Pineapple to basket"
           >
-          <a href="product-apple.html">Go to Apple</a>
-        </li>
-        <li>
-          <a
-            href="product-banana.html"
-            class="emoji-box"
-            aria-label="View Banana product details"
-            >🍌</a
-          >
-          <a href="product-banana.html">Go to Banana</a>
-        </li>
-        <li>
-          <a
-            href="product-lemon.html"
-            class="emoji-box"
-            aria-label="View Lemon product details"
-            >🍋</a
-          >
-          <a href="product-lemon.html">Go to Lemon</a>
-        </li>
-        <li>
-          <a
-            href="product-pineapple.html"
-            class="emoji-box"
-            aria-label="View Pineapple product details"
-            >🍍</a
-          >
-          <a href="product-pineapple.html">Go to Pineapple</a>
-        </li>
-      </ul>
+            Add to Basket
+          </button>
+        </div>
+      </div>
     </main>
     <script src="shop.js"></script>
+    <script>
+      document.getElementById("addToBasket").onclick = function () {
+        addToBasket("pineapple");
+      };
+    </script>
   </body>
-</html>
+</html> 
