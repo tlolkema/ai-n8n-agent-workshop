@@ -3,7 +3,7 @@
 </div>
 
 
-# Setup 😃  
+# Setup
 
 - Create accounts for:
   - [GitHub](https://github.com)
