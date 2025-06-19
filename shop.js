@@ -11,8 +11,17 @@ function getBasket() {
 
 function addToBasket(product) {
   const basket = getBasket();
+  if (basket.length >= 10) {
+    return false; // Indicate basket is full
+  }
   basket.push(product);
   localStorage.setItem("basket", JSON.stringify(basket));
+  return true;
+}
+
+function isBasketFull() {
+  const basket = getBasket();
+  return basket.length >= 10;
 }
 
 function clearBasket() {
@@ -69,8 +78,9 @@ if (document.readyState !== "loading") {
 // Patch basket functions to update indicator
 const origAddToBasket = window.addToBasket;
 window.addToBasket = function (product) {
-  origAddToBasket(product);
+  const result = origAddToBasket(product);
   renderBasketIndicator();
+  return result;
 };
 const origClearBasket = window.clearBasket;
 window.clearBasket = function () {
