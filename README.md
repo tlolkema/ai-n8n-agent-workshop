@@ -23,6 +23,7 @@
   - Select the forked repository
   - Import
   - Deploy
+  - hello
 
 - Set your preview environments within Vercel to have no authorization.
   - Within Vercel click on "Settings"
