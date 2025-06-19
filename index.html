@@ -1,73 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Welcome to Fruit Shop - Fresh Fruits Online</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <header role="banner">
-      <div class="header-center">
-        <a href="index.html" class="logo" aria-label="Go to homepage">
-          <img
-            src="img/fruit-shop-logo.webp"
-            class="logo-img"
-            alt="Fruit Shop Logo"
-          />
-          <span class="products-text" style="text-align: center">
-            View Products
-          </span>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Welcome to Fruit Shop - Fresh Online</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <header role="banner">
+    <div class="header-center">
+      <a href="index.html" class="logo" aria-label="Go to homepage">
+        <img src="img/fruit-shop-logo.webp" class="logo-img" alt="Fruit Shop Logo" />
+        <span class="products-text" style="text-align: center">
+          View Products
+        </span>
+      </a>
+      <nav role="navigation" aria-label="Main navigation">
+        <a href="basket.html" class="basket-link" aria-label="View shopping basket" style="position: relative">
+          <img src="img/basket-icon.png" class="basket-img" alt="Shopping basket icon" />
+          <span class="basket-text">View shopping basket</span>
         </a>
-        <nav role="navigation" aria-label="Main navigation">
-          <a
-            href="basket.html"
-            class="basket-link"
-            aria-label="View shopping basket"
-            style="position: relative"
-          >
-            <img
-              src="img/basket-icon.png"
-              class="basket-img"
-              alt="Shopping basket icon"
-            />
-            <span class="basket-text">View shopping basket</span>
-          </a>
-        </nav>
-      </div>
-    </header>
-    <main id="main-content" role="main">
-      <h1 class="products-title">Products</h1>
-      <ul class="emoji-list" role="list" aria-label="Product list">
-        <li>
-          <a
-            href="product-apple.html"
-            class="emoji-box"
-            aria-label="View Apple product details"
-            >🍏</a
-          >
-          <a href="product-apple.html">Go to Apple</a>
-        </li>
-        <li>
-          <a
-            href="product-banana.html"
-            class="emoji-box"
-            aria-label="View Banana product details"
-            >🍌</a
-          >
-          <a href="product-banana.html">Go to Banana</a>
-        </li>
-        <li>
-          <a
-            href="product-lemon.html"
-            class="emoji-box"
-            aria-label="View Lemon product details"
-            >🍋</a
-          >
-          <a href="product-lemon.html">Go to Lemon</a>
-        </li>
-      </ul>
-    </main>
-    <script src="shop.js"></script>
-  </body>
+      </nav>
+    </div>
+  </header>
+  <main id="main-content" role="main">
+    <h1 class="products-title">Products</h1>
+    <ul class="emoji-list" role="list" aria-label="Product list">
+      <li>
+        <a href="product-apple.html" class="emoji-box" aria-label="View Apple product details">🍏</a>
+        <a href="product-apple.html">Go to Apple</a>
+      </li>
+      <li>
+        <a href="product-banana.html" class="emoji-box" aria-label="View Banana product details">🍌</a>
+        <a href="product-banana.html">Go to Banana</a>
+      </li>
+      <li>
+        <a href="product-lemon.html" class="emoji-box" aria-label="View Lemon product details">🍋</a>
+        <a href="product-lemon.html">Go to Lemon</a>
+      </li>
+    </ul>
+  </main>
+  <script src="shop.js"></script>
+</body>
+
 </html>
