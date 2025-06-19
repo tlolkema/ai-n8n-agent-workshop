@@ -30,18 +30,11 @@ function renderBasket() {
     if (cartButtonsRow) cartButtonsRow.style.display = "none";
     return;
   }
-  // Group items by product and count
-  const grouped = {};
   basket.forEach((product) => {
-    if (!grouped[product]) grouped[product] = 0;
-    grouped[product]++;
-  });
-  Object.keys(grouped).forEach((product) => {
     const item = PRODUCTS[product];
     if (item) {
       const li = document.createElement("li");
-      const count = grouped[product];
-      li.innerHTML = `<span class='basket-emoji'>${item.emoji}</span> <span>${item.name}${count > 1 ? ` ${count}x` : ""}</span>`;
+      li.innerHTML = `<span class='basket-emoji'>${item.emoji}</span> <span>${item.name}</span>`;
       basketList.appendChild(li);
     }
   });
