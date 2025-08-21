@@ -35,7 +35,7 @@
 
 - Edit the n8n pipeline with all your own credentials to connect with GitHub, Airtop and OpenAI.
   - All steps which need it should show an error icon.
-  - For all GitHub nodes change the repository owner to yourself.
+  - For all GitHub nodes change the repository owner to your own username.
   - Do NOT use Safari as this will block the pop-up to connect these accounts.
  
 - Activate your workflow within n8n.
@@ -51,8 +51,7 @@
 
 - Inspect the steps within the workflow execution to see what happened.
 
-- Copy the payload of your executed run and use it as mock
-  - Run the workflow with a manual trigger using the pull request event mock
+- Try to run the pipeline with a manual trigger. First edit the `PR Event Mock` node with the details of your PR.
 
 ## Bonus
 
