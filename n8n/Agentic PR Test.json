@@ -7,14 +7,14 @@
         "text": "={{ $json.output }}",
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "=You are a helpful manual tester that needs to make sure the pull request can be merged by performing a set of functional tests.\n\nYou mission is:\n\n- You will first retrieve the preview environment on Vercel via the comments on  {{ $json.output[\"pull-request-comments-url\"] }} its part of the [Visit preview] and ends with `.vercel.app`\n\n- You can use tools from Airtop to validate all testcases. Below is a set of how to best use these tools.\n\n- Do not test any other test not mentioned within the testcases.\n\n- Make sure to output if the tests were a success and provide a detailed description of the run. What was executed and what was validated upon.\n\nHow to use Airtop tools:\n\n## Start the browser\nYou should always start by using the `Start browser` tool to get the `sessionId` and `windowId` required by other tools.\n\n## Use the `Query` tool\nYou don't have access to the browser screen but you can call the `Query` tool to get knowladge and hints of the current browser window. This tool accepts queries in natural language and can output information in plain text, markdown or JSON.\n\n## Use the `Click` tool\nUse the `Click` tool to click on an element on the web page. Describe the element in details in the \"Element Description\" field, Be specific and refer to elements that are on the page. \n\n## Use the `Type` tool\nUse the `Type` tool to type in text boxes. Describe the text box in \"Element Description\" field and the text to type in the \"Text\" field. The 'Type' tool is clicking Enter after typing the text so don't send [ENTER] commandes.\n\n### Examples for how to use the `Query` tool\n- Ask something about the current page:\n  \"Is the user logged in? Answer with Yes or No\"\n- Retrieve information:\n  \"Extract all the posts in the page, include the title and copy, output in JSON format\"\n- Get hints on the UI:\n  \"Is there a link to the contact form? If yes, describe the element in detail\"\n\n## Important\n- Start by calling `Start browser` to begin using the browser and provide the initial URL\n- Call `End session` with the `sessionId` once you have finished using the browser",
+          "systemMessage": "=You are a helpful manual tester that needs to make sure the pull request can be merged by performing a set of functional tests.\n\nYou mission is:\n\n- You will first retrieve the preview environment on Vercel via the comments on  {{ $json.output[\"pull-request-comments-url\"] }} its part of the [Visit preview] and ends with `.vercel.app`\n\n- You can use tools from Airtop to validate all testcases. Below is a set of how to best use these tools.\n\n- Do not test any other test not mentioned within the testcases.\n\n- Make sure to output if the tests were a success and provide a detailed description of the run. What was executed and what was validated upon.\n\nHow to use Airtop tools:\n\n## Start the browser\nYou should always start by using the `Start Session` tool and after the \"Window\" tool to get the `sessionId` and `windowId` required by other tools.\n\n## Use the `Query` tool\nYou don't have access to the browser screen but you can call the `Query` tool to get knowladge and hints of the current browser window. This tool accepts queries in natural language and can output information in plain text, markdown or JSON. Ask for example: \"What is visible on the page? How many products are shown? What is the text on the labels or buttons? etc.\"\n\n## Use the `Click` tool\nUse the `Click` tool to click on an element on the web page. Describe the element in details in the \"Element Description\" field, Be specific and refer to elements that are on the page. \n\n## Use the `Type` tool\nUse the `Type` tool to type in text boxes. Describe the text box in \"Element Description\" field and the text to type in the \"Text\" field. The 'Type' tool is clicking Enter after typing the text so don't send [ENTER] commandes.\n\n### Examples for how to use the `Query` tool\n- Ask something about the current page:\n  \"Is the user logged in? Answer with Yes or No\"\n- Retrieve information:\n  \"Extract all the posts in the page, include the title and copy, output in JSON format\"\n- Get hints on the UI:\n  \"Is there a link to the contact form? If yes, describe the element in detail\"\n\nDo not ask it to run localstorage or javascript as this will not work. Only questions in natural language.\n\n## Important\n- Start by opening a session and then open a window to the initial URL\n- The human ONLY sees your last message\n- Make sure to include all the important information requested by the human in your LAST message\n- Call `End session` with the `sessionId` once you have finished using the browser",
           "maxIterations": 35
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
-      "position": [2080, 420],
-      "id": "960b31a5-3a74-4560-9a5e-3b2863737de0",
+      "position": [1472, 384],
+      "id": "e10b4261-31f8-4bf5-84e9-861149ee6f01",
       "name": "Browser Agent"
     },
     {
@@ -23,13 +23,13 @@
         "text": "={{ $json.user_message }}",
         "hasOutputParser": true,
         "options": {
-          "systemMessage": "=You are a helpful ISTQB certified assistant that creates a set of test cases that need to be tested in a later stage by a different AI agent.\n\nYou can make HTTP requests to retrieve the file diffs of the pull request via {{ $json.user_message.diff_url }}\n\nYou can gather both the issue number of the pull request: {{ $json.user_message.number }} And if a issue is mentioned within the commit message ({{ $json.user_message.title }}) or comment also retrieve the issue number which is related to the PR.\n\nYour mission:\n\n- Review the proposed code changes file by file and by significant modification.\n\n- Come up with a list of test cases based on the functionalities of the pull request and the the related issue within GitHub.\n\n- Use the GitHub issue tool to get the contents of the SCRUM issue. Which contains acceptance criteria to base the test cases on.\n\n- Only output the test cases to perform. A different AI agent will use the browser to perform these testcases at a later stage. Make sure the output is detailed enough so the next agent knows what to do and where to assess / validate on.\n\n- Don't make up any testcases for functionality which is not directly touched, or not mentioned as acceptance criteria.\n\n- If the code changes are not functional. e.g. but only a change in readme, external files, comments (also ignore comments in js or html files etc.), tests etc. Output that `needs-testing` is false.\n\n- If `needs-testing` is true it should always contain some test cases."
+          "systemMessage": "=You are a helpful ISTQB certified assistant that creates a set of test cases that need to be tested in a later stage by a different AI agent.\n\nYou can make HTTP requests to retrieve the file diffs of the pull request via {{ $json.user_message.diff_url }}\n\nYou can gather both the issue number of the pull request: {{ $json.user_message.number }} And if a issue is mentioned within the commit message ({{ $json.user_message.title }}) or comment also retrieve the issue number which is related to the PR.\n\nYour mission:\n\n- Review the proposed code changes file by file and by significant modification.\n\n- Come up with a list of test cases based on the functionalities of the pull request and the the related issue within GitHub.\n\n- Use the GitHub issue tool to get the contents of the SCRUM issue. Which contains acceptance criteria to base the test cases on.\n\n- The tester / agent is non technical. Do not ask him to execute javascript, clean localstorage etc. but only give him clear testcases as an end user.\n\n- Only output the test cases to perform. A different AI agent will use the browser to perform these testcases at a later stage. Make sure the output is detailed enough so the next agent knows what to do and where to assess / validate on.\n\n- Don't make up any testcases for functionality which is not directly touched, or not mentioned as acceptance criteria.\n\n- If the code changes are not functional. e.g. but only a change in readme, external files, comments (also ignore comments in js or html files etc.), tests etc. Output that `needs-testing` is false.\n\n- If `needs-testing` is true it should always contain some test cases."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
-      "position": [772, 420],
-      "id": "9b9e45df-ee0c-4fc1-b8fa-c2d5423849c1",
+      "position": [48, 384],
+      "id": "4062c1de-15e7-4591-966b-130b7e42d329",
       "name": "Testplan Agent"
     },
     {
@@ -38,11 +38,13 @@
         "owner": {
           "__rl": true,
           "value": "tlolkema",
-          "mode": "name"
+          "mode": "list",
+          "cachedResultName": "tlolkema",
+          "cachedResultUrl": "https://github.com/tlolkema"
         },
         "repository": {
           "__rl": true,
-          "value": "ai-demo-webshop",
+          "value": "ai-n8n-agent-workshop",
           "mode": "name"
         },
         "events": ["pull_request"],
@@ -50,10 +52,10 @@
       },
       "type": "n8n-nodes-base.githubTrigger",
       "typeVersion": 1,
-      "position": [240, 620],
-      "id": "8c073c40-9f45-4709-b5e8-045a5c6ce65c",
+      "position": [-528, 480],
+      "id": "36d6b822-0e85-4e1d-ba7a-28cf3b972481",
       "name": "Github Trigger",
-      "webhookId": "f02079a7-2d87-4c21-b85d-3af539244853",
+      "webhookId": "2c23218b-f21c-464a-8c4b-fd52306240a1",
       "credentials": {
         "githubOAuth2Api": {
           "id": "3vEQUhWPIkywSnnG",
@@ -69,16 +71,16 @@
       },
       "type": "n8n-nodes-base.httpRequestTool",
       "typeVersion": 4.2,
-      "position": [800, 640],
-      "id": "74a0a633-c186-4499-9bf0-0e8e801785af",
+      "position": [48, 608],
+      "id": "5506d2c1-1421-4aa9-b15f-ce745aaefbbb",
       "name": "HTTP Request File Diffs"
     },
     {
       "parameters": {},
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
-      "position": [-200, 320],
-      "id": "a5300524-862e-4f5f-a85f-9c42b874bfb6",
+      "position": [-528, 288],
+      "id": "e8f9072b-160f-4695-97b5-da65b600c047",
       "name": "GitHub Trigger Mock"
     },
     {
@@ -87,8 +89,8 @@
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [460, 420],
-      "id": "850fdd8c-244a-4610-8248-8b96af7a2665",
+      "position": [-304, 480],
+      "id": "0a3c0c95-7a62-47f6-a028-e2a98207f5ca",
       "name": "Prepare Testplan Agent Input"
     },
     {
@@ -104,17 +106,17 @@
         },
         "repository": {
           "__rl": true,
-          "value": "ai-demo-webshop",
+          "value": "ai-n8n-agent-workshop",
           "mode": "name"
         },
         "issueNumber": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Issue_Number', ``, 'number') }}"
       },
       "type": "n8n-nodes-base.githubTool",
       "typeVersion": 1.1,
-      "position": [920, 640],
-      "id": "4c312caa-ce58-4fd0-8a2c-ebceb07c19cd",
+      "position": [176, 608],
+      "id": "46e5aca3-4d0e-4357-88f6-e56fd40c00e6",
       "name": "Get Issue",
-      "webhookId": "3301c2fc-e9a1-4bef-84de-f4bcaab27b10",
+      "webhookId": "2df8395d-208d-4fe7-8234-61479571fe77",
       "credentials": {
         "githubOAuth2Api": {
           "id": "3vEQUhWPIkywSnnG",
@@ -149,69 +151,18 @@
       },
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
-      "position": [1240, 420],
-      "id": "e91ca660-8355-49ee-91b1-07cb723d209a",
+      "position": [512, 384],
+      "id": "3210a0ac-3469-48a6-bf5f-71895152eb65",
       "name": "Needs testing?"
-    },
-    {
-      "parameters": {
-        "jsCode": "return [\n  {\n    \"body\": {\n      \"action\": \"opened\",\n      \"number\": 4,\n      \"pull_request\": {\n        \"url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/pulls/4\",\n        \"id\": 2598608818,\n        \"node_id\": \"PR_kwDOO6HOac6a45-y\",\n        \"html_url\": \"https://github.com/tlolkema/ai-demo-webshop/pull/4\",\n        \"diff_url\": \"https://github.com/tlolkema/ai-demo-webshop/pull/4.diff\",\n        \"patch_url\": \"https://github.com/tlolkema/ai-demo-webshop/pull/4.patch\",\n        \"issue_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/4\",\n        \"number\": 4,\n        \"state\": \"open\",\n        \"locked\": false,\n        \"title\": \"chore: small changes\",\n        \"user\": {\n          \"login\": \"tlolkema\",\n          \"id\": 30321659,\n          \"node_id\": \"MDQ6VXNlcjMwMzIxNjU5\",\n          \"avatar_url\": \"https://avatars.githubusercontent.com/u/30321659?v=4\",\n          \"gravatar_id\": \"\",\n          \"url\": \"https://api.github.com/users/tlolkema\",\n          \"html_url\": \"https://github.com/tlolkema\",\n          \"followers_url\": \"https://api.github.com/users/tlolkema/followers\",\n          \"following_url\": \"https://api.github.com/users/tlolkema/following{/other_user}\",\n          \"gists_url\": \"https://api.github.com/users/tlolkema/gists{/gist_id}\",\n          \"starred_url\": \"https://api.github.com/users/tlolkema/starred{/owner}{/repo}\",\n          \"subscriptions_url\": \"https://api.github.com/users/tlolkema/subscriptions\",\n          \"organizations_url\": \"https://api.github.com/users/tlolkema/orgs\",\n          \"repos_url\": \"https://api.github.com/users/tlolkema/repos\",\n          \"events_url\": \"https://api.github.com/users/tlolkema/events{/privacy}\",\n          \"received_events_url\": \"https://api.github.com/users/tlolkema/received_events\",\n          \"type\": \"User\",\n          \"user_view_type\": \"public\",\n          \"site_admin\": false\n        },\n        \"body\": null,\n        \"created_at\": \"2025-06-17T12:05:18Z\",\n        \"updated_at\": \"2025-06-17T12:05:18Z\",\n        \"closed_at\": null,\n        \"merged_at\": null,\n        \"merge_commit_sha\": null,\n        \"assignee\": null,\n        \"assignees\": [],\n        \"requested_reviewers\": [],\n        \"requested_teams\": [],\n        \"labels\": [],\n        \"milestone\": null,\n        \"draft\": false,\n        \"commits_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/pulls/4/commits\",\n        \"review_comments_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/pulls/4/comments\",\n        \"review_comment_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/pulls/comments{/number}\",\n        \"comments_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/4/comments\",\n        \"statuses_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/statuses/de13a77da01ca5d3d3007bee95ba0e35848d9c1b\",\n        \"head\": {\n          \"label\": \"tlolkema:small-change\",\n          \"ref\": \"small-change\",\n          \"sha\": \"de13a77da01ca5d3d3007bee95ba0e35848d9c1b\",\n          \"user\": {\n            \"login\": \"tlolkema\",\n            \"id\": 30321659,\n            \"node_id\": \"MDQ6VXNlcjMwMzIxNjU5\",\n            \"avatar_url\": \"https://avatars.githubusercontent.com/u/30321659?v=4\",\n            \"gravatar_id\": \"\",\n            \"url\": \"https://api.github.com/users/tlolkema\",\n            \"html_url\": \"https://github.com/tlolkema\",\n            \"followers_url\": \"https://api.github.com/users/tlolkema/followers\",\n            \"following_url\": \"https://api.github.com/users/tlolkema/following{/other_user}\",\n            \"gists_url\": \"https://api.github.com/users/tlolkema/gists{/gist_id}\",\n            \"starred_url\": \"https://api.github.com/users/tlolkema/starred{/owner}{/repo}\",\n            \"subscriptions_url\": \"https://api.github.com/users/tlolkema/subscriptions\",\n            \"organizations_url\": \"https://api.github.com/users/tlolkema/orgs\",\n            \"repos_url\": \"https://api.github.com/users/tlolkema/repos\",\n            \"events_url\": \"https://api.github.com/users/tlolkema/events{/privacy}\",\n            \"received_events_url\": \"https://api.github.com/users/tlolkema/received_events\",\n            \"type\": \"User\",\n            \"user_view_type\": \"public\",\n            \"site_admin\": false\n          },\n          \"repo\": {\n            \"id\": 1000459881,\n            \"node_id\": \"R_kgDOO6HOaQ\",\n            \"name\": \"ai-demo-webshop\",\n            \"full_name\": \"tlolkema/ai-demo-webshop\",\n            \"private\": false,\n            \"owner\": {\n              \"login\": \"tlolkema\",\n              \"id\": 30321659,\n              \"node_id\": \"MDQ6VXNlcjMwMzIxNjU5\",\n              \"avatar_url\": \"https://avatars.githubusercontent.com/u/30321659?v=4\",\n              \"gravatar_id\": \"\",\n              \"url\": \"https://api.github.com/users/tlolkema\",\n              \"html_url\": \"https://github.com/tlolkema\",\n              \"followers_url\": \"https://api.github.com/users/tlolkema/followers\",\n              \"following_url\": \"https://api.github.com/users/tlolkema/following{/other_user}\",\n              \"gists_url\": \"https://api.github.com/users/tlolkema/gists{/gist_id}\",\n              \"starred_url\": \"https://api.github.com/users/tlolkema/starred{/owner}{/repo}\",\n              \"subscriptions_url\": \"https://api.github.com/users/tlolkema/subscriptions\",\n              \"organizations_url\": \"https://api.github.com/users/tlolkema/orgs\",\n              \"repos_url\": \"https://api.github.com/users/tlolkema/repos\",\n              \"events_url\": \"https://api.github.com/users/tlolkema/events{/privacy}\",\n              \"received_events_url\": \"https://api.github.com/users/tlolkema/received_events\",\n              \"type\": \"User\",\n              \"user_view_type\": \"public\",\n              \"site_admin\": false\n            },\n            \"html_url\": \"https://github.com/tlolkema/ai-demo-webshop\",\n            \"description\": null,\n            \"fork\": false,\n            \"url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop\",\n            \"forks_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/forks\",\n            \"keys_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/keys{/key_id}\",\n            \"collaborators_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/collaborators{/collaborator}\",\n            \"teams_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/teams\",\n            \"hooks_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/hooks\",\n            \"issue_events_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/events{/number}\",\n            \"events_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/events\",\n            \"assignees_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/assignees{/user}\",\n            \"branches_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/branches{/branch}\",\n            \"tags_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/tags\",\n            \"blobs_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/blobs{/sha}\",\n            \"git_tags_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/tags{/sha}\",\n            \"git_refs_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/refs{/sha}\",\n            \"trees_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/trees{/sha}\",\n            \"statuses_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/statuses/{sha}\",\n            \"languages_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/languages\",\n            \"stargazers_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/stargazers\",\n            \"contributors_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/contributors\",\n            \"subscribers_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/subscribers\",\n            \"subscription_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/subscription\",\n            \"commits_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/commits{/sha}\",\n            \"git_commits_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/commits{/sha}\",\n            \"comments_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/comments{/number}\",\n            \"issue_comment_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/comments{/number}\",\n            \"contents_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/contents/{+path}\",\n            \"compare_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/compare/{base}...{head}\",\n            \"merges_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/merges\",\n            \"archive_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/{archive_format}{/ref}\",\n            \"downloads_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/downloads\",\n            \"issues_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues{/number}\",\n            \"pulls_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/pulls{/number}\",\n            \"milestones_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/milestones{/number}\",\n            \"notifications_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/notifications{?since,all,participating}\",\n            \"labels_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/labels{/name}\",\n            \"releases_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/releases{/id}\",\n            \"deployments_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/deployments\",\n            \"created_at\": \"2025-06-11T20:22:03Z\",\n            \"updated_at\": \"2025-06-11T20:27:01Z\",\n            \"pushed_at\": \"2025-06-17T12:05:06Z\",\n            \"git_url\": \"git://github.com/tlolkema/ai-demo-webshop.git\",\n            \"ssh_url\": \"git@github.com:tlolkema/ai-demo-webshop.git\",\n            \"clone_url\": \"https://github.com/tlolkema/ai-demo-webshop.git\",\n            \"svn_url\": \"https://github.com/tlolkema/ai-demo-webshop\",\n            \"homepage\": \"https://ai-demo-webshop.vercel.app\",\n            \"size\": 263,\n            \"stargazers_count\": 0,\n            \"watchers_count\": 0,\n            \"language\": \"HTML\",\n            \"has_issues\": true,\n            \"has_projects\": true,\n            \"has_downloads\": true,\n            \"has_wiki\": true,\n            \"has_pages\": false,\n            \"has_discussions\": false,\n            \"forks_count\": 0,\n            \"mirror_url\": null,\n            \"archived\": false,\n            \"disabled\": false,\n            \"open_issues_count\": 4,\n            \"license\": null,\n            \"allow_forking\": true,\n            \"is_template\": false,\n            \"web_commit_signoff_required\": false,\n            \"topics\": [],\n            \"visibility\": \"public\",\n            \"forks\": 0,\n            \"open_issues\": 4,\n            \"watchers\": 0,\n            \"default_branch\": \"main\",\n            \"allow_squash_merge\": true,\n            \"allow_merge_commit\": true,\n            \"allow_rebase_merge\": true,\n            \"allow_auto_merge\": false,\n            \"delete_branch_on_merge\": false,\n            \"allow_update_branch\": false,\n            \"use_squash_pr_title_as_default\": false,\n            \"squash_merge_commit_message\": \"COMMIT_MESSAGES\",\n            \"squash_merge_commit_title\": \"COMMIT_OR_PR_TITLE\",\n            \"merge_commit_message\": \"PR_TITLE\",\n            \"merge_commit_title\": \"MERGE_MESSAGE\"\n          }\n        },\n        \"base\": {\n          \"label\": \"tlolkema:main\",\n          \"ref\": \"main\",\n          \"sha\": \"fb45532cd181cee5d0699ecf654fcc6a68c39166\",\n          \"user\": {\n            \"login\": \"tlolkema\",\n            \"id\": 30321659,\n            \"node_id\": \"MDQ6VXNlcjMwMzIxNjU5\",\n            \"avatar_url\": \"https://avatars.githubusercontent.com/u/30321659?v=4\",\n            \"gravatar_id\": \"\",\n            \"url\": \"https://api.github.com/users/tlolkema\",\n            \"html_url\": \"https://github.com/tlolkema\",\n            \"followers_url\": \"https://api.github.com/users/tlolkema/followers\",\n            \"following_url\": \"https://api.github.com/users/tlolkema/following{/other_user}\",\n            \"gists_url\": \"https://api.github.com/users/tlolkema/gists{/gist_id}\",\n            \"starred_url\": \"https://api.github.com/users/tlolkema/starred{/owner}{/repo}\",\n            \"subscriptions_url\": \"https://api.github.com/users/tlolkema/subscriptions\",\n            \"organizations_url\": \"https://api.github.com/users/tlolkema/orgs\",\n            \"repos_url\": \"https://api.github.com/users/tlolkema/repos\",\n            \"events_url\": \"https://api.github.com/users/tlolkema/events{/privacy}\",\n            \"received_events_url\": \"https://api.github.com/users/tlolkema/received_events\",\n            \"type\": \"User\",\n            \"user_view_type\": \"public\",\n            \"site_admin\": false\n          },\n          \"repo\": {\n            \"id\": 1000459881,\n            \"node_id\": \"R_kgDOO6HOaQ\",\n            \"name\": \"ai-demo-webshop\",\n            \"full_name\": \"tlolkema/ai-demo-webshop\",\n            \"private\": false,\n            \"owner\": {\n              \"login\": \"tlolkema\",\n              \"id\": 30321659,\n              \"node_id\": \"MDQ6VXNlcjMwMzIxNjU5\",\n              \"avatar_url\": \"https://avatars.githubusercontent.com/u/30321659?v=4\",\n              \"gravatar_id\": \"\",\n              \"url\": \"https://api.github.com/users/tlolkema\",\n              \"html_url\": \"https://github.com/tlolkema\",\n              \"followers_url\": \"https://api.github.com/users/tlolkema/followers\",\n              \"following_url\": \"https://api.github.com/users/tlolkema/following{/other_user}\",\n              \"gists_url\": \"https://api.github.com/users/tlolkema/gists{/gist_id}\",\n              \"starred_url\": \"https://api.github.com/users/tlolkema/starred{/owner}{/repo}\",\n              \"subscriptions_url\": \"https://api.github.com/users/tlolkema/subscriptions\",\n              \"organizations_url\": \"https://api.github.com/users/tlolkema/orgs\",\n              \"repos_url\": \"https://api.github.com/users/tlolkema/repos\",\n              \"events_url\": \"https://api.github.com/users/tlolkema/events{/privacy}\",\n              \"received_events_url\": \"https://api.github.com/users/tlolkema/received_events\",\n              \"type\": \"User\",\n              \"user_view_type\": \"public\",\n              \"site_admin\": false\n            },\n            \"html_url\": \"https://github.com/tlolkema/ai-demo-webshop\",\n            \"description\": null,\n            \"fork\": false,\n            \"url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop\",\n            \"forks_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/forks\",\n            \"keys_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/keys{/key_id}\",\n            \"collaborators_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/collaborators{/collaborator}\",\n            \"teams_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/teams\",\n            \"hooks_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/hooks\",\n            \"issue_events_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/events{/number}\",\n            \"events_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/events\",\n            \"assignees_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/assignees{/user}\",\n            \"branches_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/branches{/branch}\",\n            \"tags_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/tags\",\n            \"blobs_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/blobs{/sha}\",\n            \"git_tags_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/tags{/sha}\",\n            \"git_refs_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/refs{/sha}\",\n            \"trees_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/trees{/sha}\",\n            \"statuses_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/statuses/{sha}\",\n            \"languages_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/languages\",\n            \"stargazers_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/stargazers\",\n            \"contributors_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/contributors\",\n            \"subscribers_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/subscribers\",\n            \"subscription_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/subscription\",\n            \"commits_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/commits{/sha}\",\n            \"git_commits_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/commits{/sha}\",\n            \"comments_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/comments{/number}\",\n            \"issue_comment_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/comments{/number}\",\n            \"contents_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/contents/{+path}\",\n            \"compare_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/compare/{base}...{head}\",\n            \"merges_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/merges\",\n            \"archive_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/{archive_format}{/ref}\",\n            \"downloads_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/downloads\",\n            \"issues_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues{/number}\",\n            \"pulls_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/pulls{/number}\",\n            \"milestones_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/milestones{/number}\",\n            \"notifications_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/notifications{?since,all,participating}\",\n            \"labels_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/labels{/name}\",\n            \"releases_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/releases{/id}\",\n            \"deployments_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/deployments\",\n            \"created_at\": \"2025-06-11T20:22:03Z\",\n            \"updated_at\": \"2025-06-11T20:27:01Z\",\n            \"pushed_at\": \"2025-06-17T12:05:06Z\",\n            \"git_url\": \"git://github.com/tlolkema/ai-demo-webshop.git\",\n            \"ssh_url\": \"git@github.com:tlolkema/ai-demo-webshop.git\",\n            \"clone_url\": \"https://github.com/tlolkema/ai-demo-webshop.git\",\n            \"svn_url\": \"https://github.com/tlolkema/ai-demo-webshop\",\n            \"homepage\": \"https://ai-demo-webshop.vercel.app\",\n            \"size\": 263,\n            \"stargazers_count\": 0,\n            \"watchers_count\": 0,\n            \"language\": \"HTML\",\n            \"has_issues\": true,\n            \"has_projects\": true,\n            \"has_downloads\": true,\n            \"has_wiki\": true,\n            \"has_pages\": false,\n            \"has_discussions\": false,\n            \"forks_count\": 0,\n            \"mirror_url\": null,\n            \"archived\": false,\n            \"disabled\": false,\n            \"open_issues_count\": 4,\n            \"license\": null,\n            \"allow_forking\": true,\n            \"is_template\": false,\n            \"web_commit_signoff_required\": false,\n            \"topics\": [],\n            \"visibility\": \"public\",\n            \"forks\": 0,\n            \"open_issues\": 4,\n            \"watchers\": 0,\n            \"default_branch\": \"main\",\n            \"allow_squash_merge\": true,\n            \"allow_merge_commit\": true,\n            \"allow_rebase_merge\": true,\n            \"allow_auto_merge\": false,\n            \"delete_branch_on_merge\": false,\n            \"allow_update_branch\": false,\n            \"use_squash_pr_title_as_default\": false,\n            \"squash_merge_commit_message\": \"COMMIT_MESSAGES\",\n            \"squash_merge_commit_title\": \"COMMIT_OR_PR_TITLE\",\n            \"merge_commit_message\": \"PR_TITLE\",\n            \"merge_commit_title\": \"MERGE_MESSAGE\"\n          }\n        },\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/pulls/4\"\n          },\n          \"html\": {\n            \"href\": \"https://github.com/tlolkema/ai-demo-webshop/pull/4\"\n          },\n          \"issue\": {\n            \"href\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/4\"\n          },\n          \"comments\": {\n            \"href\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/4/comments\"\n          },\n          \"review_comments\": {\n            \"href\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/pulls/4/comments\"\n          },\n          \"review_comment\": {\n            \"href\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/pulls/comments{/number}\"\n          },\n          \"commits\": {\n            \"href\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/pulls/4/commits\"\n          },\n          \"statuses\": {\n            \"href\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/statuses/de13a77da01ca5d3d3007bee95ba0e35848d9c1b\"\n          }\n        },\n        \"author_association\": \"OWNER\",\n        \"auto_merge\": null,\n        \"active_lock_reason\": null,\n        \"merged\": false,\n        \"mergeable\": null,\n        \"rebaseable\": null,\n        \"mergeable_state\": \"unknown\",\n        \"merged_by\": null,\n        \"comments\": 0,\n        \"review_comments\": 0,\n        \"maintainer_can_modify\": false,\n        \"commits\": 1,\n        \"additions\": 2,\n        \"deletions\": 0,\n        \"changed_files\": 2\n      },\n      \"repository\": {\n        \"id\": 1000459881,\n        \"node_id\": \"R_kgDOO6HOaQ\",\n        \"name\": \"ai-demo-webshop\",\n        \"full_name\": \"tlolkema/ai-demo-webshop\",\n        \"private\": false,\n        \"owner\": {\n          \"login\": \"tlolkema\",\n          \"id\": 30321659,\n          \"node_id\": \"MDQ6VXNlcjMwMzIxNjU5\",\n          \"avatar_url\": \"https://avatars.githubusercontent.com/u/30321659?v=4\",\n          \"gravatar_id\": \"\",\n          \"url\": \"https://api.github.com/users/tlolkema\",\n          \"html_url\": \"https://github.com/tlolkema\",\n          \"followers_url\": \"https://api.github.com/users/tlolkema/followers\",\n          \"following_url\": \"https://api.github.com/users/tlolkema/following{/other_user}\",\n          \"gists_url\": \"https://api.github.com/users/tlolkema/gists{/gist_id}\",\n          \"starred_url\": \"https://api.github.com/users/tlolkema/starred{/owner}{/repo}\",\n          \"subscriptions_url\": \"https://api.github.com/users/tlolkema/subscriptions\",\n          \"organizations_url\": \"https://api.github.com/users/tlolkema/orgs\",\n          \"repos_url\": \"https://api.github.com/users/tlolkema/repos\",\n          \"events_url\": \"https://api.github.com/users/tlolkema/events{/privacy}\",\n          \"received_events_url\": \"https://api.github.com/users/tlolkema/received_events\",\n          \"type\": \"User\",\n          \"user_view_type\": \"public\",\n          \"site_admin\": false\n        },\n        \"html_url\": \"https://github.com/tlolkema/ai-demo-webshop\",\n        \"description\": null,\n        \"fork\": false,\n        \"url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop\",\n        \"forks_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/forks\",\n        \"keys_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/keys{/key_id}\",\n        \"collaborators_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/collaborators{/collaborator}\",\n        \"teams_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/teams\",\n        \"hooks_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/hooks\",\n        \"issue_events_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/events{/number}\",\n        \"events_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/events\",\n        \"assignees_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/assignees{/user}\",\n        \"branches_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/branches{/branch}\",\n        \"tags_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/tags\",\n        \"blobs_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/blobs{/sha}\",\n        \"git_tags_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/tags{/sha}\",\n        \"git_refs_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/refs{/sha}\",\n        \"trees_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/trees{/sha}\",\n        \"statuses_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/statuses/{sha}\",\n        \"languages_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/languages\",\n        \"stargazers_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/stargazers\",\n        \"contributors_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/contributors\",\n        \"subscribers_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/subscribers\",\n        \"subscription_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/subscription\",\n        \"commits_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/commits{/sha}\",\n        \"git_commits_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/commits{/sha}\",\n        \"comments_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/comments{/number}\",\n        \"issue_comment_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/comments{/number}\",\n        \"contents_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/contents/{+path}\",\n        \"compare_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/compare/{base}...{head}\",\n        \"merges_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/merges\",\n        \"archive_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/{archive_format}{/ref}\",\n        \"downloads_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/downloads\",\n        \"issues_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues{/number}\",\n        \"pulls_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/pulls{/number}\",\n        \"milestones_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/milestones{/number}\",\n        \"notifications_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/notifications{?since,all,participating}\",\n        \"labels_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/labels{/name}\",\n        \"releases_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/releases{/id}\",\n        \"deployments_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/deployments\",\n        \"created_at\": \"2025-06-11T20:22:03Z\",\n        \"updated_at\": \"2025-06-11T20:27:01Z\",\n        \"pushed_at\": \"2025-06-17T12:05:06Z\",\n        \"git_url\": \"git://github.com/tlolkema/ai-demo-webshop.git\",\n        \"ssh_url\": \"git@github.com:tlolkema/ai-demo-webshop.git\",\n        \"clone_url\": \"https://github.com/tlolkema/ai-demo-webshop.git\",\n        \"svn_url\": \"https://github.com/tlolkema/ai-demo-webshop\",\n        \"homepage\": \"https://ai-demo-webshop.vercel.app\",\n        \"size\": 263,\n        \"stargazers_count\": 0,\n        \"watchers_count\": 0,\n        \"language\": \"HTML\",\n        \"has_issues\": true,\n        \"has_projects\": true,\n        \"has_downloads\": true,\n        \"has_wiki\": true,\n        \"has_pages\": false,\n        \"has_discussions\": false,\n        \"forks_count\": 0,\n        \"mirror_url\": null,\n        \"archived\": false,\n        \"disabled\": false,\n        \"open_issues_count\": 4,\n        \"license\": null,\n        \"allow_forking\": true,\n        \"is_template\": false,\n        \"web_commit_signoff_required\": false,\n        \"topics\": [],\n        \"visibility\": \"public\",\n        \"forks\": 0,\n        \"open_issues\": 4,\n        \"watchers\": 0,\n        \"default_branch\": \"main\"\n      },\n      \"sender\": {\n        \"login\": \"tlolkema\",\n        \"id\": 30321659,\n        \"node_id\": \"MDQ6VXNlcjMwMzIxNjU5\",\n        \"avatar_url\": \"https://avatars.githubusercontent.com/u/30321659?v=4\",\n        \"gravatar_id\": \"\",\n        \"url\": \"https://api.github.com/users/tlolkema\",\n        \"html_url\": \"https://github.com/tlolkema\",\n        \"followers_url\": \"https://api.github.com/users/tlolkema/followers\",\n        \"following_url\": \"https://api.github.com/users/tlolkema/following{/other_user}\",\n        \"gists_url\": \"https://api.github.com/users/tlolkema/gists{/gist_id}\",\n        \"starred_url\": \"https://api.github.com/users/tlolkema/starred{/owner}{/repo}\",\n        \"subscriptions_url\": \"https://api.github.com/users/tlolkema/subscriptions\",\n        \"organizations_url\": \"https://api.github.com/users/tlolkema/orgs\",\n        \"repos_url\": \"https://api.github.com/users/tlolkema/repos\",\n        \"events_url\": \"https://api.github.com/users/tlolkema/events{/privacy}\",\n        \"received_events_url\": \"https://api.github.com/users/tlolkema/received_events\",\n        \"type\": \"User\",\n        \"user_view_type\": \"public\",\n        \"site_admin\": false\n      }\n    },\n    \"headers\": {\n      \"host\": \"tlolkema.app.n8n.cloud\",\n      \"user-agent\": \"GitHub-Hookshot/fb6e15e\",\n      \"content-length\": \"22609\",\n      \"accept\": \"*/*\",\n      \"accept-encoding\": \"gzip, br\",\n      \"cdn-loop\": \"cloudflare; loops=1; subreqs=1\",\n      \"cf-connecting-ip\": \"140.82.115.101\",\n      \"cf-ew-via\": \"15\",\n      \"cf-ipcountry\": \"US\",\n      \"cf-ray\": \"95126a21477e59c2-IAD\",\n      \"cf-visitor\": \"{\\\"scheme\\\":\\\"https\\\"}\",\n      \"cf-worker\": \"n8n.cloud\",\n      \"content-type\": \"application/json\",\n      \"x-forwarded-for\": \"140.82.115.101, 172.70.35.180\",\n      \"x-forwarded-host\": \"tlolkema.app.n8n.cloud\",\n      \"x-forwarded-port\": \"443\",\n      \"x-forwarded-proto\": \"https\",\n      \"x-forwarded-server\": \"traefik-prod-users-gwc-37-d47f5fc8c-hggrq\",\n      \"x-github-delivery\": \"568870f0-4b73-11f0-8929-3f87db32f1af\",\n      \"x-github-event\": \"pull_request\",\n      \"x-github-hook-id\": \"552781635\",\n      \"x-github-hook-installation-target-id\": \"1000459881\",\n      \"x-github-hook-installation-target-type\": \"repository\",\n      \"x-is-trusted\": \"yes\",\n      \"x-real-ip\": \"140.82.115.101\"\n    },\n    \"query\": {}\n  }\n]"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [240, 420],
-      "id": "bd825435-dd1e-450b-a822-097c32e31c70",
-      "name": "Non Functional PR Mock"
-    },
-    {
-      "parameters": {
-        "jsCode": "return [\n  {\n    \"body\": {\n      \"action\": \"synchronize\",\n      \"number\": 2,\n      \"pull_request\": {\n        \"url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/pulls/2\",\n        \"id\": 2585501808,\n        \"node_id\": \"PR_kwDOO6HOac6aG6Bw\",\n        \"html_url\": \"https://github.com/tlolkema/ai-demo-webshop/pull/2\",\n        \"diff_url\": \"https://github.com/tlolkema/ai-demo-webshop/pull/2.diff\",\n        \"patch_url\": \"https://github.com/tlolkema/ai-demo-webshop/pull/2.patch\",\n        \"issue_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/2\",\n        \"number\": 2,\n        \"state\": \"open\",\n        \"locked\": false,\n        \"title\": \"change: implement combining line items same type. github issue: #1\",\n        \"user\": {\n          \"login\": \"tlolkema\",\n          \"id\": 30321659,\n          \"node_id\": \"MDQ6VXNlcjMwMzIxNjU5\",\n          \"avatar_url\": \"https://avatars.githubusercontent.com/u/30321659?v=4\",\n          \"gravatar_id\": \"\",\n          \"url\": \"https://api.github.com/users/tlolkema\",\n          \"html_url\": \"https://github.com/tlolkema\",\n          \"followers_url\": \"https://api.github.com/users/tlolkema/followers\",\n          \"following_url\": \"https://api.github.com/users/tlolkema/following{/other_user}\",\n          \"gists_url\": \"https://api.github.com/users/tlolkema/gists{/gist_id}\",\n          \"starred_url\": \"https://api.github.com/users/tlolkema/starred{/owner}{/repo}\",\n          \"subscriptions_url\": \"https://api.github.com/users/tlolkema/subscriptions\",\n          \"organizations_url\": \"https://api.github.com/users/tlolkema/orgs\",\n          \"repos_url\": \"https://api.github.com/users/tlolkema/repos\",\n          \"events_url\": \"https://api.github.com/users/tlolkema/events{/privacy}\",\n          \"received_events_url\": \"https://api.github.com/users/tlolkema/received_events\",\n          \"type\": \"User\",\n          \"user_view_type\": \"public\",\n          \"site_admin\": false\n        },\n        \"body\": null,\n        \"created_at\": \"2025-06-11T21:55:16Z\",\n        \"updated_at\": \"2025-06-18T09:16:32Z\",\n        \"closed_at\": null,\n        \"merged_at\": null,\n        \"merge_commit_sha\": \"e0b2f9c81d3770e97ecc33ceff9d91a218a58e10\",\n        \"assignee\": null,\n        \"assignees\": [],\n        \"requested_reviewers\": [],\n        \"requested_teams\": [],\n        \"labels\": [],\n        \"milestone\": null,\n        \"draft\": false,\n        \"commits_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/pulls/2/commits\",\n        \"review_comments_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/pulls/2/comments\",\n        \"review_comment_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/pulls/comments{/number}\",\n        \"comments_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/2/comments\",\n        \"statuses_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/statuses/f048bc4c0db8954ce4bc2408acdc95a69e819b0b\",\n        \"head\": {\n          \"label\": \"tlolkema:line-items-combined\",\n          \"ref\": \"line-items-combined\",\n          \"sha\": \"f048bc4c0db8954ce4bc2408acdc95a69e819b0b\",\n          \"user\": {\n            \"login\": \"tlolkema\",\n            \"id\": 30321659,\n            \"node_id\": \"MDQ6VXNlcjMwMzIxNjU5\",\n            \"avatar_url\": \"https://avatars.githubusercontent.com/u/30321659?v=4\",\n            \"gravatar_id\": \"\",\n            \"url\": \"https://api.github.com/users/tlolkema\",\n            \"html_url\": \"https://github.com/tlolkema\",\n            \"followers_url\": \"https://api.github.com/users/tlolkema/followers\",\n            \"following_url\": \"https://api.github.com/users/tlolkema/following{/other_user}\",\n            \"gists_url\": \"https://api.github.com/users/tlolkema/gists{/gist_id}\",\n            \"starred_url\": \"https://api.github.com/users/tlolkema/starred{/owner}{/repo}\",\n            \"subscriptions_url\": \"https://api.github.com/users/tlolkema/subscriptions\",\n            \"organizations_url\": \"https://api.github.com/users/tlolkema/orgs\",\n            \"repos_url\": \"https://api.github.com/users/tlolkema/repos\",\n            \"events_url\": \"https://api.github.com/users/tlolkema/events{/privacy}\",\n            \"received_events_url\": \"https://api.github.com/users/tlolkema/received_events\",\n            \"type\": \"User\",\n            \"user_view_type\": \"public\",\n            \"site_admin\": false\n          },\n          \"repo\": {\n            \"id\": 1000459881,\n            \"node_id\": \"R_kgDOO6HOaQ\",\n            \"name\": \"ai-demo-webshop\",\n            \"full_name\": \"tlolkema/ai-demo-webshop\",\n            \"private\": false,\n            \"owner\": {\n              \"login\": \"tlolkema\",\n              \"id\": 30321659,\n              \"node_id\": \"MDQ6VXNlcjMwMzIxNjU5\",\n              \"avatar_url\": \"https://avatars.githubusercontent.com/u/30321659?v=4\",\n              \"gravatar_id\": \"\",\n              \"url\": \"https://api.github.com/users/tlolkema\",\n              \"html_url\": \"https://github.com/tlolkema\",\n              \"followers_url\": \"https://api.github.com/users/tlolkema/followers\",\n              \"following_url\": \"https://api.github.com/users/tlolkema/following{/other_user}\",\n              \"gists_url\": \"https://api.github.com/users/tlolkema/gists{/gist_id}\",\n              \"starred_url\": \"https://api.github.com/users/tlolkema/starred{/owner}{/repo}\",\n              \"subscriptions_url\": \"https://api.github.com/users/tlolkema/subscriptions\",\n              \"organizations_url\": \"https://api.github.com/users/tlolkema/orgs\",\n              \"repos_url\": \"https://api.github.com/users/tlolkema/repos\",\n              \"events_url\": \"https://api.github.com/users/tlolkema/events{/privacy}\",\n              \"received_events_url\": \"https://api.github.com/users/tlolkema/received_events\",\n              \"type\": \"User\",\n              \"user_view_type\": \"public\",\n              \"site_admin\": false\n            },\n            \"html_url\": \"https://github.com/tlolkema/ai-demo-webshop\",\n            \"description\": null,\n            \"fork\": false,\n            \"url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop\",\n            \"forks_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/forks\",\n            \"keys_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/keys{/key_id}\",\n            \"collaborators_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/collaborators{/collaborator}\",\n            \"teams_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/teams\",\n            \"hooks_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/hooks\",\n            \"issue_events_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/events{/number}\",\n            \"events_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/events\",\n            \"assignees_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/assignees{/user}\",\n            \"branches_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/branches{/branch}\",\n            \"tags_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/tags\",\n            \"blobs_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/blobs{/sha}\",\n            \"git_tags_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/tags{/sha}\",\n            \"git_refs_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/refs{/sha}\",\n            \"trees_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/trees{/sha}\",\n            \"statuses_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/statuses/{sha}\",\n            \"languages_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/languages\",\n            \"stargazers_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/stargazers\",\n            \"contributors_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/contributors\",\n            \"subscribers_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/subscribers\",\n            \"subscription_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/subscription\",\n            \"commits_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/commits{/sha}\",\n            \"git_commits_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/commits{/sha}\",\n            \"comments_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/comments{/number}\",\n            \"issue_comment_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/comments{/number}\",\n            \"contents_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/contents/{+path}\",\n            \"compare_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/compare/{base}...{head}\",\n            \"merges_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/merges\",\n            \"archive_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/{archive_format}{/ref}\",\n            \"downloads_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/downloads\",\n            \"issues_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues{/number}\",\n            \"pulls_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/pulls{/number}\",\n            \"milestones_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/milestones{/number}\",\n            \"notifications_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/notifications{?since,all,participating}\",\n            \"labels_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/labels{/name}\",\n            \"releases_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/releases{/id}\",\n            \"deployments_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/deployments\",\n            \"created_at\": \"2025-06-11T20:22:03Z\",\n            \"updated_at\": \"2025-06-18T09:12:48Z\",\n            \"pushed_at\": \"2025-06-18T09:16:31Z\",\n            \"git_url\": \"git://github.com/tlolkema/ai-demo-webshop.git\",\n            \"ssh_url\": \"git@github.com:tlolkema/ai-demo-webshop.git\",\n            \"clone_url\": \"https://github.com/tlolkema/ai-demo-webshop.git\",\n            \"svn_url\": \"https://github.com/tlolkema/ai-demo-webshop\",\n            \"homepage\": \"https://ai-demo-webshop.vercel.app\",\n            \"size\": 267,\n            \"stargazers_count\": 0,\n            \"watchers_count\": 0,\n            \"language\": \"HTML\",\n            \"has_issues\": true,\n            \"has_projects\": true,\n            \"has_downloads\": true,\n            \"has_wiki\": true,\n            \"has_pages\": false,\n            \"has_discussions\": false,\n            \"forks_count\": 0,\n            \"mirror_url\": null,\n            \"archived\": false,\n            \"disabled\": false,\n            \"open_issues_count\": 4,\n            \"license\": null,\n            \"allow_forking\": true,\n            \"is_template\": false,\n            \"web_commit_signoff_required\": false,\n            \"topics\": [],\n            \"visibility\": \"public\",\n            \"forks\": 0,\n            \"open_issues\": 4,\n            \"watchers\": 0,\n            \"default_branch\": \"main\",\n            \"allow_squash_merge\": true,\n            \"allow_merge_commit\": true,\n            \"allow_rebase_merge\": true,\n            \"allow_auto_merge\": false,\n            \"delete_branch_on_merge\": false,\n            \"allow_update_branch\": false,\n            \"use_squash_pr_title_as_default\": false,\n            \"squash_merge_commit_message\": \"COMMIT_MESSAGES\",\n            \"squash_merge_commit_title\": \"COMMIT_OR_PR_TITLE\",\n            \"merge_commit_message\": \"PR_TITLE\",\n            \"merge_commit_title\": \"MERGE_MESSAGE\"\n          }\n        },\n        \"base\": {\n          \"label\": \"tlolkema:main\",\n          \"ref\": \"main\",\n          \"sha\": \"b6b9556083bc85523a386957b20e8518b47de729\",\n          \"user\": {\n            \"login\": \"tlolkema\",\n            \"id\": 30321659,\n            \"node_id\": \"MDQ6VXNlcjMwMzIxNjU5\",\n            \"avatar_url\": \"https://avatars.githubusercontent.com/u/30321659?v=4\",\n            \"gravatar_id\": \"\",\n            \"url\": \"https://api.github.com/users/tlolkema\",\n            \"html_url\": \"https://github.com/tlolkema\",\n            \"followers_url\": \"https://api.github.com/users/tlolkema/followers\",\n            \"following_url\": \"https://api.github.com/users/tlolkema/following{/other_user}\",\n            \"gists_url\": \"https://api.github.com/users/tlolkema/gists{/gist_id}\",\n            \"starred_url\": \"https://api.github.com/users/tlolkema/starred{/owner}{/repo}\",\n            \"subscriptions_url\": \"https://api.github.com/users/tlolkema/subscriptions\",\n            \"organizations_url\": \"https://api.github.com/users/tlolkema/orgs\",\n            \"repos_url\": \"https://api.github.com/users/tlolkema/repos\",\n            \"events_url\": \"https://api.github.com/users/tlolkema/events{/privacy}\",\n            \"received_events_url\": \"https://api.github.com/users/tlolkema/received_events\",\n            \"type\": \"User\",\n            \"user_view_type\": \"public\",\n            \"site_admin\": false\n          },\n          \"repo\": {\n            \"id\": 1000459881,\n            \"node_id\": \"R_kgDOO6HOaQ\",\n            \"name\": \"ai-demo-webshop\",\n            \"full_name\": \"tlolkema/ai-demo-webshop\",\n            \"private\": false,\n            \"owner\": {\n              \"login\": \"tlolkema\",\n              \"id\": 30321659,\n              \"node_id\": \"MDQ6VXNlcjMwMzIxNjU5\",\n              \"avatar_url\": \"https://avatars.githubusercontent.com/u/30321659?v=4\",\n              \"gravatar_id\": \"\",\n              \"url\": \"https://api.github.com/users/tlolkema\",\n              \"html_url\": \"https://github.com/tlolkema\",\n              \"followers_url\": \"https://api.github.com/users/tlolkema/followers\",\n              \"following_url\": \"https://api.github.com/users/tlolkema/following{/other_user}\",\n              \"gists_url\": \"https://api.github.com/users/tlolkema/gists{/gist_id}\",\n              \"starred_url\": \"https://api.github.com/users/tlolkema/starred{/owner}{/repo}\",\n              \"subscriptions_url\": \"https://api.github.com/users/tlolkema/subscriptions\",\n              \"organizations_url\": \"https://api.github.com/users/tlolkema/orgs\",\n              \"repos_url\": \"https://api.github.com/users/tlolkema/repos\",\n              \"events_url\": \"https://api.github.com/users/tlolkema/events{/privacy}\",\n              \"received_events_url\": \"https://api.github.com/users/tlolkema/received_events\",\n              \"type\": \"User\",\n              \"user_view_type\": \"public\",\n              \"site_admin\": false\n            },\n            \"html_url\": \"https://github.com/tlolkema/ai-demo-webshop\",\n            \"description\": null,\n            \"fork\": false,\n            \"url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop\",\n            \"forks_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/forks\",\n            \"keys_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/keys{/key_id}\",\n            \"collaborators_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/collaborators{/collaborator}\",\n            \"teams_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/teams\",\n            \"hooks_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/hooks\",\n            \"issue_events_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/events{/number}\",\n            \"events_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/events\",\n            \"assignees_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/assignees{/user}\",\n            \"branches_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/branches{/branch}\",\n            \"tags_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/tags\",\n            \"blobs_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/blobs{/sha}\",\n            \"git_tags_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/tags{/sha}\",\n            \"git_refs_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/refs{/sha}\",\n            \"trees_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/trees{/sha}\",\n            \"statuses_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/statuses/{sha}\",\n            \"languages_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/languages\",\n            \"stargazers_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/stargazers\",\n            \"contributors_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/contributors\",\n            \"subscribers_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/subscribers\",\n            \"subscription_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/subscription\",\n            \"commits_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/commits{/sha}\",\n            \"git_commits_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/commits{/sha}\",\n            \"comments_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/comments{/number}\",\n            \"issue_comment_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/comments{/number}\",\n            \"contents_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/contents/{+path}\",\n            \"compare_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/compare/{base}...{head}\",\n            \"merges_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/merges\",\n            \"archive_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/{archive_format}{/ref}\",\n            \"downloads_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/downloads\",\n            \"issues_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues{/number}\",\n            \"pulls_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/pulls{/number}\",\n            \"milestones_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/milestones{/number}\",\n            \"notifications_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/notifications{?since,all,participating}\",\n            \"labels_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/labels{/name}\",\n            \"releases_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/releases{/id}\",\n            \"deployments_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/deployments\",\n            \"created_at\": \"2025-06-11T20:22:03Z\",\n            \"updated_at\": \"2025-06-18T09:12:48Z\",\n            \"pushed_at\": \"2025-06-18T09:16:31Z\",\n            \"git_url\": \"git://github.com/tlolkema/ai-demo-webshop.git\",\n            \"ssh_url\": \"git@github.com:tlolkema/ai-demo-webshop.git\",\n            \"clone_url\": \"https://github.com/tlolkema/ai-demo-webshop.git\",\n            \"svn_url\": \"https://github.com/tlolkema/ai-demo-webshop\",\n            \"homepage\": \"https://ai-demo-webshop.vercel.app\",\n            \"size\": 267,\n            \"stargazers_count\": 0,\n            \"watchers_count\": 0,\n            \"language\": \"HTML\",\n            \"has_issues\": true,\n            \"has_projects\": true,\n            \"has_downloads\": true,\n            \"has_wiki\": true,\n            \"has_pages\": false,\n            \"has_discussions\": false,\n            \"forks_count\": 0,\n            \"mirror_url\": null,\n            \"archived\": false,\n            \"disabled\": false,\n            \"open_issues_count\": 4,\n            \"license\": null,\n            \"allow_forking\": true,\n            \"is_template\": false,\n            \"web_commit_signoff_required\": false,\n            \"topics\": [],\n            \"visibility\": \"public\",\n            \"forks\": 0,\n            \"open_issues\": 4,\n            \"watchers\": 0,\n            \"default_branch\": \"main\",\n            \"allow_squash_merge\": true,\n            \"allow_merge_commit\": true,\n            \"allow_rebase_merge\": true,\n            \"allow_auto_merge\": false,\n            \"delete_branch_on_merge\": false,\n            \"allow_update_branch\": false,\n            \"use_squash_pr_title_as_default\": false,\n            \"squash_merge_commit_message\": \"COMMIT_MESSAGES\",\n            \"squash_merge_commit_title\": \"COMMIT_OR_PR_TITLE\",\n            \"merge_commit_message\": \"PR_TITLE\",\n            \"merge_commit_title\": \"MERGE_MESSAGE\"\n          }\n        },\n        \"_links\": {\n          \"self\": {\n            \"href\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/pulls/2\"\n          },\n          \"html\": {\n            \"href\": \"https://github.com/tlolkema/ai-demo-webshop/pull/2\"\n          },\n          \"issue\": {\n            \"href\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/2\"\n          },\n          \"comments\": {\n            \"href\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/2/comments\"\n          },\n          \"review_comments\": {\n            \"href\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/pulls/2/comments\"\n          },\n          \"review_comment\": {\n            \"href\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/pulls/comments{/number}\"\n          },\n          \"commits\": {\n            \"href\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/pulls/2/commits\"\n          },\n          \"statuses\": {\n            \"href\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/statuses/f048bc4c0db8954ce4bc2408acdc95a69e819b0b\"\n          }\n        },\n        \"author_association\": \"OWNER\",\n        \"auto_merge\": null,\n        \"active_lock_reason\": null,\n        \"merged\": false,\n        \"mergeable\": null,\n        \"rebaseable\": null,\n        \"mergeable_state\": \"unknown\",\n        \"merged_by\": null,\n        \"comments\": 1,\n        \"review_comments\": 0,\n        \"maintainer_can_modify\": false,\n        \"commits\": 1,\n        \"additions\": 34,\n        \"deletions\": 7,\n        \"changed_files\": 2\n      },\n      \"before\": \"e54d64211b648aa15c9d49a806cdb5fca2b523e8\",\n      \"after\": \"f048bc4c0db8954ce4bc2408acdc95a69e819b0b\",\n      \"repository\": {\n        \"id\": 1000459881,\n        \"node_id\": \"R_kgDOO6HOaQ\",\n        \"name\": \"ai-demo-webshop\",\n        \"full_name\": \"tlolkema/ai-demo-webshop\",\n        \"private\": false,\n        \"owner\": {\n          \"login\": \"tlolkema\",\n          \"id\": 30321659,\n          \"node_id\": \"MDQ6VXNlcjMwMzIxNjU5\",\n          \"avatar_url\": \"https://avatars.githubusercontent.com/u/30321659?v=4\",\n          \"gravatar_id\": \"\",\n          \"url\": \"https://api.github.com/users/tlolkema\",\n          \"html_url\": \"https://github.com/tlolkema\",\n          \"followers_url\": \"https://api.github.com/users/tlolkema/followers\",\n          \"following_url\": \"https://api.github.com/users/tlolkema/following{/other_user}\",\n          \"gists_url\": \"https://api.github.com/users/tlolkema/gists{/gist_id}\",\n          \"starred_url\": \"https://api.github.com/users/tlolkema/starred{/owner}{/repo}\",\n          \"subscriptions_url\": \"https://api.github.com/users/tlolkema/subscriptions\",\n          \"organizations_url\": \"https://api.github.com/users/tlolkema/orgs\",\n          \"repos_url\": \"https://api.github.com/users/tlolkema/repos\",\n          \"events_url\": \"https://api.github.com/users/tlolkema/events{/privacy}\",\n          \"received_events_url\": \"https://api.github.com/users/tlolkema/received_events\",\n          \"type\": \"User\",\n          \"user_view_type\": \"public\",\n          \"site_admin\": false\n        },\n        \"html_url\": \"https://github.com/tlolkema/ai-demo-webshop\",\n        \"description\": null,\n        \"fork\": false,\n        \"url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop\",\n        \"forks_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/forks\",\n        \"keys_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/keys{/key_id}\",\n        \"collaborators_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/collaborators{/collaborator}\",\n        \"teams_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/teams\",\n        \"hooks_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/hooks\",\n        \"issue_events_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/events{/number}\",\n        \"events_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/events\",\n        \"assignees_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/assignees{/user}\",\n        \"branches_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/branches{/branch}\",\n        \"tags_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/tags\",\n        \"blobs_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/blobs{/sha}\",\n        \"git_tags_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/tags{/sha}\",\n        \"git_refs_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/refs{/sha}\",\n        \"trees_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/trees{/sha}\",\n        \"statuses_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/statuses/{sha}\",\n        \"languages_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/languages\",\n        \"stargazers_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/stargazers\",\n        \"contributors_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/contributors\",\n        \"subscribers_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/subscribers\",\n        \"subscription_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/subscription\",\n        \"commits_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/commits{/sha}\",\n        \"git_commits_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/git/commits{/sha}\",\n        \"comments_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/comments{/number}\",\n        \"issue_comment_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/comments{/number}\",\n        \"contents_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/contents/{+path}\",\n        \"compare_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/compare/{base}...{head}\",\n        \"merges_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/merges\",\n        \"archive_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/{archive_format}{/ref}\",\n        \"downloads_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/downloads\",\n        \"issues_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/issues{/number}\",\n        \"pulls_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/pulls{/number}\",\n        \"milestones_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/milestones{/number}\",\n        \"notifications_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/notifications{?since,all,participating}\",\n        \"labels_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/labels{/name}\",\n        \"releases_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/releases{/id}\",\n        \"deployments_url\": \"https://api.github.com/repos/tlolkema/ai-demo-webshop/deployments\",\n        \"created_at\": \"2025-06-11T20:22:03Z\",\n        \"updated_at\": \"2025-06-18T09:12:48Z\",\n        \"pushed_at\": \"2025-06-18T09:16:31Z\",\n        \"git_url\": \"git://github.com/tlolkema/ai-demo-webshop.git\",\n        \"ssh_url\": \"git@github.com:tlolkema/ai-demo-webshop.git\",\n        \"clone_url\": \"https://github.com/tlolkema/ai-demo-webshop.git\",\n        \"svn_url\": \"https://github.com/tlolkema/ai-demo-webshop\",\n        \"homepage\": \"https://ai-demo-webshop.vercel.app\",\n        \"size\": 267,\n        \"stargazers_count\": 0,\n        \"watchers_count\": 0,\n        \"language\": \"HTML\",\n        \"has_issues\": true,\n        \"has_projects\": true,\n        \"has_downloads\": true,\n        \"has_wiki\": true,\n        \"has_pages\": false,\n        \"has_discussions\": false,\n        \"forks_count\": 0,\n        \"mirror_url\": null,\n        \"archived\": false,\n        \"disabled\": false,\n        \"open_issues_count\": 4,\n        \"license\": null,\n        \"allow_forking\": true,\n        \"is_template\": false,\n        \"web_commit_signoff_required\": false,\n        \"topics\": [],\n        \"visibility\": \"public\",\n        \"forks\": 0,\n        \"open_issues\": 4,\n        \"watchers\": 0,\n        \"default_branch\": \"main\"\n      },\n      \"sender\": {\n        \"login\": \"tlolkema\",\n        \"id\": 30321659,\n        \"node_id\": \"MDQ6VXNlcjMwMzIxNjU5\",\n        \"avatar_url\": \"https://avatars.githubusercontent.com/u/30321659?v=4\",\n        \"gravatar_id\": \"\",\n        \"url\": \"https://api.github.com/users/tlolkema\",\n        \"html_url\": \"https://github.com/tlolkema\",\n        \"followers_url\": \"https://api.github.com/users/tlolkema/followers\",\n        \"following_url\": \"https://api.github.com/users/tlolkema/following{/other_user}\",\n        \"gists_url\": \"https://api.github.com/users/tlolkema/gists{/gist_id}\",\n        \"starred_url\": \"https://api.github.com/users/tlolkema/starred{/owner}{/repo}\",\n        \"subscriptions_url\": \"https://api.github.com/users/tlolkema/subscriptions\",\n        \"organizations_url\": \"https://api.github.com/users/tlolkema/orgs\",\n        \"repos_url\": \"https://api.github.com/users/tlolkema/repos\",\n        \"events_url\": \"https://api.github.com/users/tlolkema/events{/privacy}\",\n        \"received_events_url\": \"https://api.github.com/users/tlolkema/received_events\",\n        \"type\": \"User\",\n        \"user_view_type\": \"public\",\n        \"site_admin\": false\n      }\n    },\n    \"headers\": {\n      \"host\": \"tlolkema.app.n8n.cloud\",\n      \"user-agent\": \"GitHub-Hookshot/fb6e15e\",\n      \"content-length\": \"22816\",\n      \"accept\": \"*/*\",\n      \"accept-encoding\": \"gzip, br\",\n      \"cdn-loop\": \"cloudflare; loops=1; subreqs=1\",\n      \"cf-connecting-ip\": \"140.82.115.79\",\n      \"cf-ew-via\": \"15\",\n      \"cf-ipcountry\": \"US\",\n      \"cf-ray\": \"9519b043274cb4a5-IAD\",\n      \"cf-visitor\": \"{\\\"scheme\\\":\\\"https\\\"}\",\n      \"cf-worker\": \"n8n.cloud\",\n      \"content-type\": \"application/json\",\n      \"x-forwarded-for\": \"140.82.115.79, 104.23.211.74\",\n      \"x-forwarded-host\": \"tlolkema.app.n8n.cloud\",\n      \"x-forwarded-port\": \"443\",\n      \"x-forwarded-proto\": \"https\",\n      \"x-forwarded-server\": \"traefik-prod-users-gwc-37-d47f5fc8c-p4jjw\",\n      \"x-github-delivery\": \"ecbeb460-4c24-11f0-8389-29caf69efd5e\",\n      \"x-github-event\": \"pull_request\",\n      \"x-github-hook-id\": \"552956279\",\n      \"x-github-hook-installation-target-id\": \"1000459881\",\n      \"x-github-hook-installation-target-type\": \"repository\",\n      \"x-is-trusted\": \"yes\",\n      \"x-real-ip\": \"140.82.115.79\"\n    },\n    \"query\": {}\n  }\n]"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [240, 220],
-      "id": "52bb1969-bfe5-4aeb-9a71-6ce97af8842e",
-      "name": "Functional PR Mock"
     },
     {
       "parameters": {},
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
-      "position": [1460, 420],
-      "id": "b1bf2c36-b855-401b-8ec6-aa7971b0537e",
+      "position": [736, 384],
+      "id": "f8a2ce1b-0537-4575-9537-982814033261",
       "name": "Wait For Preview Environment",
-      "webhookId": "e7581949-32a7-4f26-baf0-737a33a2341a"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 2
-          },
-          "conditions": [
-            {
-              "id": "454e072a-eb00-47e6-a02e-855d6bfd54cd",
-              "leftValue": "={{ $json[\"functional-pr\"] }}",
-              "rightValue": "",
-              "operator": {
-                "type": "boolean",
-                "operation": "true",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.2,
-      "position": [20, 320],
-      "id": "962cee1d-695f-4ff4-8867-32765c34560f",
-      "name": "If"
+      "webhookId": "59b02ff8-d867-4e88-8583-0842ac6a3ec3"
     },
     {
       "parameters": {
@@ -221,53 +172,9 @@
       },
       "type": "n8n-nodes-base.httpRequestTool",
       "typeVersion": 4.2,
-      "position": [1800, 640],
-      "id": "a024fc34-7e28-4d01-ac56-aab8a0eeb7f5",
+      "position": [1088, 608],
+      "id": "d5e1cefa-db5c-4d7b-8b3f-288e20f24c1a",
       "name": "Get preview URL from comments"
-    },
-    {
-      "parameters": {
-        "model": {
-          "__rl": true,
-          "value": "gpt-4.1",
-          "mode": "list",
-          "cachedResultName": "gpt-4.1"
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "typeVersion": 1.2,
-      "position": [1680, 640],
-      "id": "6e42598e-f340-4e2c-a547-b3fc174c7e4a",
-      "name": "gpt-4.1",
-      "credentials": {
-        "openAiApi": {
-          "id": "V2LMHN8RMyVrMaRr",
-          "name": "OpenAi account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "model": {
-          "__rl": true,
-          "value": "gpt-4o",
-          "mode": "list",
-          "cachedResultName": "gpt-4o"
-        },
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
-      "typeVersion": 1.2,
-      "position": [680, 640],
-      "id": "21c5a38e-94f1-4306-9a8f-ec4165ebe3af",
-      "name": "gpt-4o",
-      "credentials": {
-        "openAiApi": {
-          "id": "V2LMHN8RMyVrMaRr",
-          "name": "OpenAi account"
-        }
-      }
     },
     {
       "parameters": {
@@ -280,7 +187,7 @@
         },
         "repository": {
           "__rl": true,
-          "value": "ai-demo-webshop",
+          "value": "ai-n8n-agent-workshop",
           "mode": "name"
         },
         "pullRequestNumber": "={{ $json.output[\"pull-request-number\"] }}",
@@ -290,10 +197,10 @@
       },
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
-      "position": [1460, 620],
-      "id": "13016cf1-ad93-4e11-8cc4-011df19b8c53",
+      "position": [736, 576],
+      "id": "517d902b-14ee-48df-a952-94d545b64a91",
       "name": "GitHub Comment",
-      "webhookId": "37304c5a-87ff-4394-a0f6-3f7b130e46b4",
+      "webhookId": "48ef858c-4282-4870-9929-0ca8bae2aba2",
       "credentials": {
         "githubOAuth2Api": {
           "id": "3vEQUhWPIkywSnnG",
@@ -312,10 +219,10 @@
         },
         "repository": {
           "__rl": true,
-          "value": "ai-demo-webshop",
+          "value": "ai-n8n-agent-workshop",
           "mode": "list",
-          "cachedResultName": "ai-demo-webshop",
-          "cachedResultUrl": "https://github.com/tlolkema/ai-demo-webshop"
+          "cachedResultName": "ai-n8n-agent-workshop",
+          "cachedResultUrl": "https://github.com/tlolkema/ai-n8n-agent-workshop"
         },
         "pullRequestNumber": "={{ $json.output[\"pull-request-number\"] }}",
         "event": "comment",
@@ -324,10 +231,10 @@
       },
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
-      "position": [1460, 220],
-      "id": "d072bc31-1ce3-4cfb-83ef-a0a730bcb37d",
+      "position": [736, 192],
+      "id": "197506eb-988c-4064-a48e-335c39809d1a",
       "name": "GitHub Testcases Comment",
-      "webhookId": "99555e15-f7d4-4976-801e-d7e0d8a3dce3",
+      "webhookId": "f2e3542f-4579-4238-beb3-d34004e842c6",
       "credentials": {
         "githubOAuth2Api": {
           "id": "3vEQUhWPIkywSnnG",
@@ -342,8 +249,8 @@
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.2,
-      "position": [2640, 640],
-      "id": "c078f13d-bf51-49df-ac10-d75aa885852e",
+      "position": [2112, 608],
+      "id": "37a12fbd-dcb1-41b1-964c-8fac6ed0505e",
       "name": "Browser Agent Structured Output"
     },
     {
@@ -353,102 +260,9 @@
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.2,
-      "position": [1040, 640],
-      "id": "8d5ac207-22b8-423d-84a6-6d0d3347253c",
+      "position": [304, 608],
+      "id": "9bb43a10-cd28-4a0e-a768-e21f28e163a4",
       "name": "Testplan Agent Structured Output"
-    },
-    {
-      "parameters": {
-        "profileName": "={{ $json.profile_name }}",
-        "additionalFields": {}
-      },
-      "id": "666d9a0c-4661-4446-bf7f-7fc8b0b81b73",
-      "name": "Session",
-      "type": "n8n-nodes-base.airtop",
-      "position": [20, 880],
-      "typeVersion": 1,
-      "credentials": {
-        "airtopApi": {
-          "id": "AQS7R9HmXO2cPS0P",
-          "name": "Airtop account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "resource": "window",
-        "url": "={{ $('When Executed by Another Workflow').item.json.url }}",
-        "getLiveView": true,
-        "additionalFields": {}
-      },
-      "id": "24094d0b-4026-4a3b-a7c2-4e811499aa12",
-      "name": "Window",
-      "type": "n8n-nodes-base.airtop",
-      "position": [240, 880],
-      "typeVersion": 1,
-      "credentials": {
-        "airtopApi": {
-          "id": "AQS7R9HmXO2cPS0P",
-          "name": "Airtop account"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "0a0680af-39bd-4bc7-b9cd-84c1766c79a1",
-              "name": "sessionId",
-              "type": "string",
-              "value": "={{ $('Session').item.json.sessionId }}"
-            },
-            {
-              "id": "13940ee8-c1d4-4718-a7b4-176c44c097b7",
-              "name": "windowId",
-              "type": "string",
-              "value": "={{ $('Window').item.json.data.windowId }}"
-            },
-            {
-              "id": "a0f2005c-2cd2-4a8d-891b-a4759b72a124",
-              "name": "output",
-              "type": "string",
-              "value": "Session and window created successfully"
-            },
-            {
-              "id": "a681af5f-57aa-4a8c-8264-3e87d5661bef",
-              "name": "liveUrl",
-              "value": "={{ $json.data.liveViewUrl }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "id": "b19ea3be-ee00-48a9-be85-f402844d0451",
-      "name": "Return IDs",
-      "type": "n8n-nodes-base.set",
-      "position": [460, 880],
-      "typeVersion": 3.4
-    },
-    {
-      "parameters": {
-        "workflowInputs": {
-          "values": [
-            {
-              "name": "url"
-            },
-            {
-              "name": "profile_name"
-            }
-          ]
-        }
-      },
-      "id": "9b31e603-16e0-4f24-9029-166717eb9f0e",
-      "name": "When Executed by Another Workflow",
-      "type": "n8n-nodes-base.executeWorkflowTrigger",
-      "position": [-200, 880],
-      "typeVersion": 1.1
     },
     {
       "parameters": {
@@ -462,10 +276,10 @@
           "waitForNavigation": "load"
         }
       },
-      "id": "4a5fbe50-403c-45b9-b22e-1c00428380a9",
+      "id": "209b3534-e798-419f-9232-80b128b4a95c",
       "name": "Click",
       "type": "n8n-nodes-base.airtopTool",
-      "position": [2040, 640],
+      "position": [1216, 608],
       "typeVersion": 1,
       "credentials": {
         "airtopApi": {
@@ -485,10 +299,10 @@
         "prompt": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Prompt', `Ask anything and request to extract information from the current page, e.g. \"Is there any sign-up form? yes or no\"`, 'string') }}",
         "additionalFields": {}
       },
-      "id": "492c9bb5-8f7b-4668-a3a3-f6667fb915f7",
+      "id": "1f0ea7d3-a875-46f9-8182-34e1007c57d4",
       "name": "Query",
       "type": "n8n-nodes-base.airtopTool",
-      "position": [2160, 640],
+      "position": [1344, 608],
       "typeVersion": 1,
       "credentials": {
         "airtopApi": {
@@ -508,10 +322,10 @@
         "url": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('URL', ``, 'string') }}",
         "additionalFields": {}
       },
-      "id": "2218c9ee-7d1c-4888-9e8d-1a03e577f8ab",
+      "id": "3c871ec9-0e46-4805-9d0e-a7e1309f1420",
       "name": "Load URL",
       "type": "n8n-nodes-base.airtopTool",
-      "position": [2280, 640],
+      "position": [1472, 608],
       "typeVersion": 1,
       "credentials": {
         "airtopApi": {
@@ -525,10 +339,10 @@
         "operation": "terminate",
         "sessionId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Session_ID', \"The `sessionId` returned by the `Create session` tool\", 'string') }}"
       },
-      "id": "72f26e84-1628-40b8-a781-d5f48d42bdbf",
+      "id": "cbaa6cd0-c1bc-464b-bd4b-d61942cfbe97",
       "name": "End session",
       "type": "n8n-nodes-base.airtopTool",
-      "position": [2400, 640],
+      "position": [1600, 608],
       "typeVersion": 1,
       "credentials": {
         "airtopApi": {
@@ -536,53 +350,6 @@
           "name": "Airtop account"
         }
       }
-    },
-    {
-      "parameters": {
-        "name": "Start_Browser",
-        "description": "Start a new browser session and window",
-        "workflowId": {
-          "__rl": true,
-          "value": "IP2f49LKYA3EkM03",
-          "mode": "list",
-          "cachedResultName": "Agentic PR Test"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "profile_name": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('profile_name', ``, 'string') }}",
-            "url": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('url', ``, 'string') }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "url",
-              "displayName": "url",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string"
-            },
-            {
-              "id": "profile_name",
-              "displayName": "profile_name",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string"
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": false
-        }
-      },
-      "id": "be831b11-230f-4cf0-8215-0c2c74655da0",
-      "name": "Start browser",
-      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
-      "position": [2520, 640],
-      "typeVersion": 2.1
     },
     {
       "parameters": {
@@ -597,10 +364,10 @@
         "elementDescription": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Element_Description', `Describe in detail the element to type into, e.g. The search box at the top of the page`, 'string') }}",
         "additionalFields": {}
       },
-      "id": "69b765fd-c353-4390-a831-6c8d047680ab",
+      "id": "649ef34c-29c6-485b-a00e-6a7d6b4a9c08",
       "name": "Type",
       "type": "n8n-nodes-base.airtopTool",
-      "position": [1920, 640],
+      "position": [1728, 608],
       "typeVersion": 1,
       "credentials": {
         "airtopApi": {
@@ -620,10 +387,10 @@
         },
         "repository": {
           "__rl": true,
-          "value": "ai-demo-webshop",
+          "value": "ai-n8n-agent-workshop",
           "mode": "list",
-          "cachedResultName": "ai-demo-webshop",
-          "cachedResultUrl": "https://github.com/tlolkema/ai-demo-webshop"
+          "cachedResultName": "ai-n8n-agent-workshop",
+          "cachedResultUrl": "https://github.com/tlolkema/ai-n8n-agent-workshop"
         },
         "pullRequestNumber": "={{ $json.output[\"pr-number\"] }}",
         "event": "comment",
@@ -632,23 +399,120 @@
       },
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
-      "position": [2740, 420],
-      "id": "dadd089e-2141-4e88-96e7-280fe510d99c",
+      "position": [2320, 384],
+      "id": "49f0a436-48b7-4468-85ae-2603756c5c58",
       "name": "GitHub Results Comment",
-      "webhookId": "99555e15-f7d4-4976-801e-d7e0d8a3dce3",
+      "webhookId": "c45b122b-9a3a-4c94-8783-235247204ae9",
       "credentials": {
         "githubOAuth2Api": {
           "id": "3vEQUhWPIkywSnnG",
           "name": "GitHub account"
         }
       }
+    },
+    {
+      "parameters": {
+        "profileName": "=Default",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.airtopTool",
+      "typeVersion": 1,
+      "position": [1856, 608],
+      "id": "ceb33575-805c-4abe-9bc1-c8f6f66e18ce",
+      "name": "Create a session in Airtop",
+      "credentials": {
+        "airtopApi": {
+          "id": "AQS7R9HmXO2cPS0P",
+          "name": "Airtop account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "window",
+        "sessionId": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Session_ID', ``, 'string') }}",
+        "url": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('URL', ``, 'string') }}",
+        "getLiveView": true,
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.airtopTool",
+      "typeVersion": 1,
+      "position": [1984, 608],
+      "id": "a4e6611b-8b4e-4038-af7f-38a791072c5f",
+      "name": "Window",
+      "credentials": {
+        "airtopApi": {
+          "id": "AQS7R9HmXO2cPS0P",
+          "name": "Airtop account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-304, 288],
+      "id": "85117a68-7f79-4c74-a21f-aa6347583716",
+      "name": "PR Event Mock"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-nano",
+          "mode": "list",
+          "cachedResultName": "gpt-5-nano"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [-80, 608],
+      "id": "7884d8f3-84ab-4710-a1ad-5e90f695b2f8",
+      "name": "gpt 5 nano",
+      "credentials": {
+        "openAiApi": {
+          "id": "V2LMHN8RMyVrMaRr",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-5-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-5-mini"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [960, 608],
+      "id": "57dd3fe6-1042-4b4a-8172-070f8d922932",
+      "name": "gpt 5 mini",
+      "credentials": {
+        "openAiApi": {
+          "id": "V2LMHN8RMyVrMaRr",
+          "name": "OpenAi account"
+        }
+      }
     }
   ],
   "pinData": {
-    "GitHub Trigger Mock": [
+    "PR Event Mock": [
       {
         "json": {
-          "functional-pr": true
+          "user_message": {
+            "number": 2,
+            "title": "change: implement combining line items same type. github issue: #1",
+            "issue_url": "https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/2",
+            "diff_url": "https://github.com/tlolkema/ai-demo-webshop/pull/2.diff",
+            "comments_url": "https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/2/comments"
+          }
         }
       }
     ]
@@ -691,7 +555,7 @@
       "main": [
         [
           {
-            "node": "If",
+            "node": "PR Event Mock",
             "type": "main",
             "index": 0
           }
@@ -720,28 +584,6 @@
         ]
       ]
     },
-    "Non Functional PR Mock": {
-      "main": [
-        [
-          {
-            "node": "Prepare Testplan Agent Input",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Functional PR Mock": {
-      "main": [
-        [
-          {
-            "node": "Prepare Testplan Agent Input",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Needs testing?": {
       "main": [
         [
@@ -759,24 +601,6 @@
         [
           {
             "node": "GitHub Comment",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If": {
-      "main": [
-        [
-          {
-            "node": "Functional PR Mock",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Non Functional PR Mock",
             "type": "main",
             "index": 0
           }
@@ -805,28 +629,6 @@
         ]
       ]
     },
-    "gpt-4.1": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Browser Agent",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "gpt-4o": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "Testplan Agent",
-            "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "GitHub Testcases Comment": {
       "main": [[]]
     },
@@ -847,39 +649,6 @@
           {
             "node": "Testplan Agent",
             "type": "ai_outputParser",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Window": {
-      "main": [
-        [
-          {
-            "node": "Return IDs",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Session": {
-      "main": [
-        [
-          {
-            "node": "Window",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "When Executed by Another Workflow": {
-      "main": [
-        [
-          {
-            "node": "Session",
-            "type": "main",
             "index": 0
           }
         ]
@@ -929,17 +698,6 @@
         ]
       ]
     },
-    "Start browser": {
-      "ai_tool": [
-        [
-          {
-            "node": "Browser Agent",
-            "type": "ai_tool",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Type": {
       "ai_tool": [
         [
@@ -961,17 +719,72 @@
           }
         ]
       ]
+    },
+    "Create a session in Airtop": {
+      "ai_tool": [
+        [
+          {
+            "node": "Browser Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window": {
+      "ai_tool": [
+        [
+          {
+            "node": "Browser Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "PR Event Mock": {
+      "main": [
+        [
+          {
+            "node": "Testplan Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gpt 5 nano": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Testplan Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "gpt 5 mini": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Browser Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
-  "active": true,
+  "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "f9165470-3e17-414d-b860-9e03609fc511",
+  "versionId": "3a5b4a51-3c64-4488-92b1-47eebc424d77",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "e53efe907444854070074ff6b032b2f91ece1452cce6713a49551ccaae25d2aa"
   },
-  "id": "IP2f49LKYA3EkM03",
+  "id": "I6dfczLjpHcoeeNG",
   "tags": []
 }
