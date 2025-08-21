@@ -306,3 +306,47 @@ input[type="text"]:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(0, 119, 255, 0.1);
 }
+
+/* Basket error message styles */
+.basket-error-message {
+  background: #ffebee;
+  color: #c62828;
+  border: 2px solid #ef5350;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+  font-weight: 600;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(198, 40, 40, 0.15);
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Disabled button styles */
+button.disabled,
+.cart-action-btn.disabled {
+  background: #bdbdbd !important;
+  color: #757575 !important;
+  cursor: not-allowed !important;
+  border-color: #9e9e9e !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+button.disabled:hover,
+.cart-action-btn.disabled:hover {
+  background: #bdbdbd !important;
+  color: #757575 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
