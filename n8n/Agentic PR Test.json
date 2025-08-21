@@ -449,7 +449,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nfor (const item of $input.all()) {\n  item.json.myNewField = 1;\n}\n\nreturn $input.all();"
+        "jsCode": "//"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -780,7 +780,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "3a5b4a51-3c64-4488-92b1-47eebc424d77",
+  "versionId": "7695c9f8-02ac-4875-bc2a-fc535b0e2028",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "e53efe907444854070074ff6b032b2f91ece1452cce6713a49551ccaae25d2aa"
