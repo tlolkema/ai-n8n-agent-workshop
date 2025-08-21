@@ -15,29 +15,51 @@ function addToBasket(product) {
   localStorage.setItem("basket", JSON.stringify(basket));
 }
 
+// Helper function to group basket items by product and count quantities
+function getGroupedBasket() {
+  const basket = getBasket();
+  const grouped = {};
+  
+  basket.forEach((product) => {
+    if (grouped[product]) {
+      grouped[product]++;
+    } else {
+      grouped[product] = 1;
+    }
+  });
+  
+  return grouped;
+}
+
 function clearBasket() {
   localStorage.removeItem("basket");
 }
 
 function renderBasket() {
-  const basket = getBasket();
+  const groupedBasket = getGroupedBasket();
   const basketList = document.getElementById("basketList");
   const cartButtonsRow = document.querySelector(".cart-buttons-row");
   if (!basketList) return;
+  
   basketList.innerHTML = "";
-  if (basket.length === 0) {
+  
+  const productKeys = Object.keys(groupedBasket);
+  if (productKeys.length === 0) {
     basketList.innerHTML = "<li>No products in basket.</li>";
     if (cartButtonsRow) cartButtonsRow.style.display = "none";
     return;
   }
-  basket.forEach((product) => {
-    const item = PRODUCTS[product];
+  
+  productKeys.forEach((productKey) => {
+    const item = PRODUCTS[productKey];
+    const quantity = groupedBasket[productKey];
     if (item) {
       const li = document.createElement("li");
-      li.innerHTML = `<span class='basket-emoji'>${item.emoji}</span> <span>${item.name}</span>`;
+      li.innerHTML = `<span class='basket-emoji'>${item.emoji}</span> <span>${quantity}x ${item.name}</span>`;
       basketList.appendChild(li);
     }
   });
+  
   if (cartButtonsRow) cartButtonsRow.style.display = "flex";
 }
 
