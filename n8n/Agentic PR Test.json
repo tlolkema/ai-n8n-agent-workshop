@@ -38,9 +38,7 @@
         "owner": {
           "__rl": true,
           "value": "tlolkema",
-          "mode": "list",
-          "cachedResultName": "tlolkema",
-          "cachedResultUrl": "https://github.com/tlolkema"
+          "mode": "name"
         },
         "repository": {
           "__rl": true,
@@ -449,16 +447,6 @@
     },
     {
       "parameters": {
-        "jsCode": "//"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [-304, 288],
-      "id": "85117a68-7f79-4c74-a21f-aa6347583716",
-      "name": "PR Event Mock"
-    },
-    {
-      "parameters": {
         "model": {
           "__rl": true,
           "value": "gpt-5-nano",
@@ -500,19 +488,25 @@
           "name": "OpenAi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst transformedItems = items.map((item) => {\n  return {\n    user_message: {\n      number: item?.json[\"pull-request-issue\"],\n      title: `change: implement combining line items same type. github issue: #${item?.json[\"github-issue\"]}`,\n      issue_url: `https://api.github.com/repos/${item?.json[\"github-user\"]}/ai-n8n-agent-workshop/issues/${item?.json[\"github-issue\"]}`,\n      diff_url: `https://github.com/${item?.json[\"github-user\"]}/ai-n8n-agent-workshop/pull/${item?.json[\"pull-request-issue\"]}.diff`,\n      comments_url: `https://api.github.com/repos/${item?.json[\"github-user\"]}/ai-n8n-agent-workshop/issues/${item?.json[\"pull-request-issue\"]}/comments`,\n    },\n  };\n});\nreturn transformedItems;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-304, 288],
+      "id": "85117a68-7f79-4c74-a21f-aa6347583716",
+      "name": "Transform mock"
     }
   ],
   "pinData": {
-    "PR Event Mock": [
+    "GitHub Trigger Mock": [
       {
         "json": {
-          "user_message": {
-            "number": 2,
-            "title": "change: implement combining line items same type. github issue: #1",
-            "issue_url": "https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/2",
-            "diff_url": "https://github.com/tlolkema/ai-demo-webshop/pull/2.diff",
-            "comments_url": "https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/2/comments"
-          }
+          "github-user": "tlolkema",
+          "pull-request-issue": 2,
+          "github-issue": 1
         }
       }
     ]
@@ -555,7 +549,7 @@
       "main": [
         [
           {
-            "node": "PR Event Mock",
+            "node": "Transform mock",
             "type": "main",
             "index": 0
           }
@@ -742,17 +736,6 @@
         ]
       ]
     },
-    "PR Event Mock": {
-      "main": [
-        [
-          {
-            "node": "Testplan Agent",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "gpt 5 nano": {
       "ai_languageModel": [
         [
@@ -774,13 +757,24 @@
           }
         ]
       ]
+    },
+    "Transform mock": {
+      "main": [
+        [
+          {
+            "node": "Testplan Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "7695c9f8-02ac-4875-bc2a-fc535b0e2028",
+  "versionId": "aaccd521-e507-434e-b5bd-c76c9d22c088",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "e53efe907444854070074ff6b032b2f91ece1452cce6713a49551ccaae25d2aa"
