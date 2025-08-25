@@ -13,7 +13,7 @@
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
-      "position": [1472, 384],
+      "position": [1688, 384],
       "id": "e10b4261-31f8-4bf5-84e9-861149ee6f01",
       "name": "Browser Agent"
     },
@@ -28,7 +28,7 @@
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 2,
-      "position": [48, 384],
+      "position": [264, 384],
       "id": "4062c1de-15e7-4591-966b-130b7e42d329",
       "name": "Testplan Agent"
     },
@@ -38,9 +38,7 @@
         "owner": {
           "__rl": true,
           "value": "tlolkema",
-          "mode": "list",
-          "cachedResultName": "tlolkema",
-          "cachedResultUrl": "https://github.com/tlolkema"
+          "mode": "name"
         },
         "repository": {
           "__rl": true,
@@ -71,7 +69,7 @@
       },
       "type": "n8n-nodes-base.httpRequestTool",
       "typeVersion": 4.2,
-      "position": [48, 608],
+      "position": [272, 608],
       "id": "5506d2c1-1421-4aa9-b15f-ce745aaefbbb",
       "name": "HTTP Request File Diffs"
     },
@@ -101,7 +99,7 @@
         "operation": "get",
         "owner": {
           "__rl": true,
-          "value": "tlolkema",
+          "value": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Repository_Owner', ``, 'string') }}",
           "mode": "name"
         },
         "repository": {
@@ -113,7 +111,7 @@
       },
       "type": "n8n-nodes-base.githubTool",
       "typeVersion": 1.1,
-      "position": [176, 608],
+      "position": [400, 608],
       "id": "46e5aca3-4d0e-4357-88f6-e56fd40c00e6",
       "name": "Get Issue",
       "webhookId": "2df8395d-208d-4fe7-8234-61479571fe77",
@@ -151,7 +149,7 @@
       },
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
-      "position": [512, 384],
+      "position": [736, 384],
       "id": "3210a0ac-3469-48a6-bf5f-71895152eb65",
       "name": "Needs testing?"
     },
@@ -159,7 +157,7 @@
       "parameters": {},
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
-      "position": [736, 384],
+      "position": [960, 384],
       "id": "f8a2ce1b-0537-4575-9537-982814033261",
       "name": "Wait For Preview Environment",
       "webhookId": "59b02ff8-d867-4e88-8583-0842ac6a3ec3"
@@ -172,7 +170,7 @@
       },
       "type": "n8n-nodes-base.httpRequestTool",
       "typeVersion": 4.2,
-      "position": [1088, 608],
+      "position": [1312, 608],
       "id": "d5e1cefa-db5c-4d7b-8b3f-288e20f24c1a",
       "name": "Get preview URL from comments"
     },
@@ -182,7 +180,7 @@
         "resource": "review",
         "owner": {
           "__rl": true,
-          "value": "tlolkema",
+          "value": "={{ $node[\"Set Variables\"].json[\"github-user\"] }}",
           "mode": "name"
         },
         "repository": {
@@ -197,7 +195,7 @@
       },
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
-      "position": [736, 576],
+      "position": [960, 576],
       "id": "517d902b-14ee-48df-a952-94d545b64a91",
       "name": "GitHub Comment",
       "webhookId": "48ef858c-4282-4870-9929-0ca8bae2aba2",
@@ -214,7 +212,7 @@
         "resource": "review",
         "owner": {
           "__rl": true,
-          "value": "tlolkema",
+          "value": "={{ $node[\"Set Variables\"].json[\"github-user\"] }}",
           "mode": "name"
         },
         "repository": {
@@ -231,7 +229,7 @@
       },
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
-      "position": [736, 192],
+      "position": [960, 192],
       "id": "197506eb-988c-4064-a48e-335c39809d1a",
       "name": "GitHub Testcases Comment",
       "webhookId": "f2e3542f-4579-4238-beb3-d34004e842c6",
@@ -249,7 +247,7 @@
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.2,
-      "position": [2112, 608],
+      "position": [2336, 608],
       "id": "37a12fbd-dcb1-41b1-964c-8fac6ed0505e",
       "name": "Browser Agent Structured Output"
     },
@@ -260,7 +258,7 @@
       },
       "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
       "typeVersion": 1.2,
-      "position": [304, 608],
+      "position": [528, 608],
       "id": "9bb43a10-cd28-4a0e-a768-e21f28e163a4",
       "name": "Testplan Agent Structured Output"
     },
@@ -279,7 +277,7 @@
       "id": "209b3534-e798-419f-9232-80b128b4a95c",
       "name": "Click",
       "type": "n8n-nodes-base.airtopTool",
-      "position": [1216, 608],
+      "position": [1440, 608],
       "typeVersion": 1,
       "credentials": {
         "airtopApi": {
@@ -302,7 +300,7 @@
       "id": "1f0ea7d3-a875-46f9-8182-34e1007c57d4",
       "name": "Query",
       "type": "n8n-nodes-base.airtopTool",
-      "position": [1344, 608],
+      "position": [1568, 608],
       "typeVersion": 1,
       "credentials": {
         "airtopApi": {
@@ -325,7 +323,7 @@
       "id": "3c871ec9-0e46-4805-9d0e-a7e1309f1420",
       "name": "Load URL",
       "type": "n8n-nodes-base.airtopTool",
-      "position": [1472, 608],
+      "position": [1696, 608],
       "typeVersion": 1,
       "credentials": {
         "airtopApi": {
@@ -342,7 +340,7 @@
       "id": "cbaa6cd0-c1bc-464b-bd4b-d61942cfbe97",
       "name": "End session",
       "type": "n8n-nodes-base.airtopTool",
-      "position": [1600, 608],
+      "position": [1824, 608],
       "typeVersion": 1,
       "credentials": {
         "airtopApi": {
@@ -367,7 +365,7 @@
       "id": "649ef34c-29c6-485b-a00e-6a7d6b4a9c08",
       "name": "Type",
       "type": "n8n-nodes-base.airtopTool",
-      "position": [1728, 608],
+      "position": [1952, 608],
       "typeVersion": 1,
       "credentials": {
         "airtopApi": {
@@ -382,7 +380,7 @@
         "resource": "review",
         "owner": {
           "__rl": true,
-          "value": "tlolkema",
+          "value": "={{ $node[\"Set Variables\"].json[\"github-user\"] }}",
           "mode": "name"
         },
         "repository": {
@@ -399,7 +397,7 @@
       },
       "type": "n8n-nodes-base.github",
       "typeVersion": 1.1,
-      "position": [2320, 384],
+      "position": [2544, 384],
       "id": "49f0a436-48b7-4468-85ae-2603756c5c58",
       "name": "GitHub Results Comment",
       "webhookId": "c45b122b-9a3a-4c94-8783-235247204ae9",
@@ -417,7 +415,7 @@
       },
       "type": "n8n-nodes-base.airtopTool",
       "typeVersion": 1,
-      "position": [1856, 608],
+      "position": [2080, 608],
       "id": "ceb33575-805c-4abe-9bc1-c8f6f66e18ce",
       "name": "Create a session in Airtop",
       "credentials": {
@@ -437,7 +435,7 @@
       },
       "type": "n8n-nodes-base.airtopTool",
       "typeVersion": 1,
-      "position": [1984, 608],
+      "position": [2208, 608],
       "id": "a4e6611b-8b4e-4038-af7f-38a791072c5f",
       "name": "Window",
       "credentials": {
@@ -446,16 +444,6 @@
           "name": "Airtop account"
         }
       }
-    },
-    {
-      "parameters": {
-        "jsCode": "//"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [-304, 288],
-      "id": "85117a68-7f79-4c74-a21f-aa6347583716",
-      "name": "PR Event Mock"
     },
     {
       "parameters": {
@@ -469,7 +457,7 @@
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
-      "position": [-80, 608],
+      "position": [144, 608],
       "id": "7884d8f3-84ab-4710-a1ad-5e90f695b2f8",
       "name": "gpt 5 nano",
       "credentials": {
@@ -491,7 +479,7 @@
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
-      "position": [960, 608],
+      "position": [1184, 608],
       "id": "57dd3fe6-1042-4b4a-8172-070f8d922932",
       "name": "gpt 5 mini",
       "credentials": {
@@ -500,19 +488,38 @@
           "name": "OpenAi account"
         }
       }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\nconst transformedItems = items.map((item) => {\n  return {\n    user_message: {\n      number: item?.json[\"pull-request-issue\"],\n      title: `change: implement combining line items same type. github issue: #${item?.json[\"github-issue\"]}`,\n      issue_url: `https://api.github.com/repos/${item?.json[\"github-user\"]}/ai-n8n-agent-workshop/issues/${item?.json[\"github-issue\"]}`,\n      diff_url: `https://github.com/${item?.json[\"github-user\"]}/ai-n8n-agent-workshop/pull/${item?.json[\"pull-request-issue\"]}.diff`,\n      comments_url: `https://api.github.com/repos/${item?.json[\"github-user\"]}/ai-n8n-agent-workshop/issues/${item?.json[\"pull-request-issue\"]}/comments`,\n    },\n  };\n});\nreturn transformedItems;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [-304, 288],
+      "id": "85117a68-7f79-4c74-a21f-aa6347583716",
+      "name": "Transform mock"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n\"github-user\": \"tlolkema\"\n}\n",
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [-80, 384],
+      "id": "1f40a3f8-31ec-43cb-a747-80055e0357f8",
+      "name": "Set Variables"
     }
   ],
   "pinData": {
-    "PR Event Mock": [
+    "GitHub Trigger Mock": [
       {
         "json": {
-          "user_message": {
-            "number": 2,
-            "title": "change: implement combining line items same type. github issue: #1",
-            "issue_url": "https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/2",
-            "diff_url": "https://github.com/tlolkema/ai-demo-webshop/pull/2.diff",
-            "comments_url": "https://api.github.com/repos/tlolkema/ai-demo-webshop/issues/2/comments"
-          }
+          "pull-request-issue": 2,
+          "github-issue": 1,
+          "github-user": "tlolkema"
         }
       }
     ]
@@ -555,7 +562,7 @@
       "main": [
         [
           {
-            "node": "PR Event Mock",
+            "node": "Transform mock",
             "type": "main",
             "index": 0
           }
@@ -566,7 +573,7 @@
       "main": [
         [
           {
-            "node": "Testplan Agent",
+            "node": "Set Variables",
             "type": "main",
             "index": 0
           }
@@ -742,17 +749,6 @@
         ]
       ]
     },
-    "PR Event Mock": {
-      "main": [
-        [
-          {
-            "node": "Testplan Agent",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "gpt 5 nano": {
       "ai_languageModel": [
         [
@@ -774,13 +770,35 @@
           }
         ]
       ]
+    },
+    "Transform mock": {
+      "main": [
+        [
+          {
+            "node": "Set Variables",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Variables": {
+      "main": [
+        [
+          {
+            "node": "Testplan Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "7695c9f8-02ac-4875-bc2a-fc535b0e2028",
+  "versionId": "82f52cd7-9eab-4da1-90cb-106a1de08418",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "e53efe907444854070074ff6b032b2f91ece1452cce6713a49551ccaae25d2aa"
