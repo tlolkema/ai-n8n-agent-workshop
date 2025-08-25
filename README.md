@@ -83,3 +83,4 @@ Some common issues/mistakes I've seen in previous workshops:
 - If you're using Safari, it's likely that the pop-up to connect GitHub to n8n will get blocked.
 - Closing and reopening a pull request will not trigger a new preview deployment which is needed to find the preview url. It's best to make a small change to the same pull request or use the manual trigger which mocks the PR event.
 - Before running the pipeline make sure you have both your GitHub (Scrum) issue and Pull request created.
+- Make sure to follow the steps in the Setup section, every step is important.
